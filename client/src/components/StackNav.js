@@ -3,7 +3,6 @@ import { StackNavigator } from 'react-navigation';
 import SettingsScreen from './SettingsScreen';
 import AboutScreen from './AboutScreen';
 import TabNav from './TabNav';
-import Icons from 'react-native-vector-icons/Ionicons';
 
 const StackNav = StackNavigator (
     {
