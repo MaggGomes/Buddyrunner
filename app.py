@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import urllib
+import keys
 from flask import Flask
 from flask import g, session, request, url_for, json, Response
 from flask_oauthlib.client import OAuth  # https://github.com/lepture/flask-oauthlib
@@ -11,11 +12,11 @@ app.secret_key = 'development'
 
 oauth = OAuth(app)
 
-access_token = 	'985587967040409600-SrYOzF9A8O7KQRdt5eaBdNFIPohLBJl'
+access_token = keys.access_token
 twitter = oauth.remote_app(
 	'twitter',
-	consumer_key='ueOKzs55k0BGaCXVZrBg4aR1k',
-	consumer_secret='Mu35CqXvDtkd6ObPWqnJqtFcF4rztw9akajODWSU6EQv7vb1bX',
+	consumer_key=keys.consumer_key,
+	consumer_secret=keys.consumer_secret,
 	base_url='https://api.twitter.com/1.1/',
 	request_token_url='https://api.twitter.com/oauth/request_token',
 	access_token_url='https://api.twitter.com/oauth/access_token',
