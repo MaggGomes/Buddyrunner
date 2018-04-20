@@ -1,7 +1,7 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import ListScreen from './ListScreen';
-import DayScreen from './DayScreen';
+import SettingsScreen from './SettingsScreen';
+import AboutScreen from './AboutScreen';
 import TabNav from './TabNav';
 import Icons from 'react-native-vector-icons/Ionicons';
 
@@ -10,8 +10,8 @@ const StackNav = StackNavigator (
         Home: {
             screen: TabNav,
         },
-        List: {
-            Settings: SettingsScreen
+        Settings: {
+            screen: SettingsScreen
         },
         About: {
             screen: AboutScreen

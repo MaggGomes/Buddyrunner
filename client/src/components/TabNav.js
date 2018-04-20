@@ -1,7 +1,5 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
-import EventsScreen from "./EventsScreen";
-import VacanciesScreen from "./VacanciesScreen";
 import { ScrollView, FlatList, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MyRacesTab from './MyRacesTab';
 import MyStatsTab from './MyStatsTab';
