@@ -1,7 +1,7 @@
 # coding: utf-8
 
-import urllib
 import keys
+import urllib
 from flask import Flask
 from flask import g, session, request, url_for, json, Response
 from flask_oauthlib.client import OAuth  # https://github.com/lepture/flask-oauthlib
@@ -123,6 +123,18 @@ def friends():
 		get_run_basic_info(t)
 		for t
 		in filter_friends(filter_runs(data), session['twitter_oauth']['user_id'])])
+
+
+@app.route('/runs/<tweet_id>')
+def run(tweet_id):
+	data = make_twitter_request(
+		'statuses/show',
+		'GET',
+		id=tweet_id).data
+	return json.dumps([
+		get_run_basic_info(t)
+		for t
+		in filter_runs([data])])
 
 
 if __name__ == '__main__':
