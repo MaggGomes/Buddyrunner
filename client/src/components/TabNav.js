@@ -36,7 +36,7 @@ const TabNav = TabNavigator({
             backgroundColor: 'white'
         },
         activeTintColor: '#26a4f3',
-        inactiveTintColor: '#bfbfbf',
+        inactiveTintColor: '#696d6d',
         showIcon: true,
         showLabel: false,
         renderIndicator: () => null
@@ -51,7 +51,9 @@ const TabNav = TabNavigator({
         },
         headerTitleStyle: {
             color: '#26a4f3',
-            fontSize: 18
+            fontSize: 18,
+            flex: 1,
+            textAlign: 'center'
         },
         headerLeft: (
             <TouchableOpacity style={{paddingLeft:20}} onPress={() => alert('search something')}>
@@ -60,7 +62,7 @@ const TabNav = TabNavigator({
         ),
         headerRight: (
             <TouchableOpacity style={{paddingRight:20}} onPress={() => alert('search something')}>
-                <Icons name="md-search" size={30} color="#26a4f3" />
+                <Image source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'}} style={{width: 40, height: 40, borderRadius: 50}} />
             </TouchableOpacity>
         )
     }
