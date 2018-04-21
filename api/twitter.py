@@ -1,6 +1,6 @@
 import urllib
 from flask import session, request
-from keys import keys_access_token, keys_consumer_key, keys_consumer_secret
+from api.keys import twitter_access_token, twitter_consumer_key, twitter_consumer_secret
 from flask_oauthlib.client import OAuth  # https://github.com/lepture/flask-oauthlib
 
 flask_oauth = None
@@ -12,11 +12,11 @@ twitter = None
 def tw_start_twitter(app):
 	global flask_oauth, access_token, twitter
 	flask_oauth = OAuth(app)
-	access_token = keys_access_token
+	access_token = twitter_access_token
 	twitter = flask_oauth.remote_app(
 		'twitter',
-		consumer_key=keys_consumer_key,
-		consumer_secret=keys_consumer_secret,
+		consumer_key=twitter_consumer_key,
+		consumer_secret=twitter_consumer_secret,
 		base_url='https://api.twitter.com/1.1/',
 		request_token_url='https://api.twitter.com/oauth/request_token',
 		access_token_url='https://api.twitter.com/oauth/access_token',
