@@ -54,7 +54,7 @@ export default class NearbyRacesTab extends Component {
             <ListItem
                 roundAvatar
                 title={item.location}
-                subTitle={item.distance}
+                subtitle={item.distance}
                 avatar={{uri: item.user}}
             />
         </TouchableOpacity>

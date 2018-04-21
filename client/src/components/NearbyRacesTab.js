@@ -68,7 +68,7 @@ export default class NearbyRacesTab extends Component {
         <TouchableOpacity style={styles.container}>
             <ListItem
                 title={item.location}
-                subTitle={item.distance}
+                subtitle={item.distance}
             />
         </TouchableOpacity>
     );
