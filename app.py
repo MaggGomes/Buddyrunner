@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from api.twitter import *
+from api.weather import *
 from flask import Flask
 from flask import g, session, request, url_for, json, Response
 
@@ -67,10 +68,12 @@ def friends():
 @app.route('/runs/<tweet_id>')
 def run(tweet_id):
 	data = tw_make_twitter_request('statuses/show', 'GET', id=tweet_id).data
-	return json.dumps([
+	run_info = [
 		tw_get_run_complete_info(t)
 		for t
-		in tw_filter_runs([data])])
+		in tw_filter_runs([data])][0]
+	run_info.update(get_weather(0, 0, 0))
+	return json.dumps(run_info)
 
 
 if __name__ == '__main__':
