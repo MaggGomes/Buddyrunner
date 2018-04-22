@@ -47,15 +47,33 @@ def logout():
 
 @app.route('/runs')
 def runs():
-	user_name = session['twitter_oauth']['screen_name']
-	data = tw_make_twitter_request('statuses/user_timeline', 'GET', screen_name=user_name).data
-	return json.dumps([
-		tw_get_run_basic_info(t)
-		for t
-		in tw_filter_runs(data)])
+	if request.method == 'GET':
+		user_name = session['twitter_oauth']['screen_name']
+		data = tw_make_twitter_request('statuses/user_timeline', 'GET', screen_name=user_name, include_rts=True).data
+		return json.dumps([
+			tw_get_run_basic_info(t)
+			for t
+			in tw_filter_runs(data)])
 
 
-@app.route('/friends')
+@app.route('/runs/create')
+def create():
+	req = request.values.to_dict()
+	tweet = ''
+	if req.get('date'):
+		tweet += 'Date: {0}\n'.format(req.get('date'))
+	if req.get('location'):
+		tweet += 'Location: {0}\n'.format(req.get('location'))
+	if req.get('distance'):
+		tweet += 'Distance: {0}\n'.format(req.get('distance'))
+	if req.get('duration'):
+		tweet += 'Duration: {0}\n'.format(req.get('duration'))
+	tweet += '#buddyrunner'
+	resp = tw_make_twitter_request('statuses/update', 'POST', status=tweet).data
+	return json.dumps(resp)
+
+
+@app.route('/runs/friends')
 def friends():
 	user_name = session['twitter_oauth']['screen_name']
 	data = tw_make_twitter_request('statuses/home_timeline', 'GET', screen_name=user_name).data
@@ -74,6 +92,17 @@ def run(tweet_id):
 		in tw_filter_runs([data])][0]
 	run_info.update(get_weather(0, 0, 0))
 	return json.dumps(run_info)
+
+
+@app.route('/runs/<tweet_id>/join')
+def join(tweet_id):
+	data = tw_make_twitter_request('statuses/retweet', 'POST', id=tweet_id).data
+	return json.dumps(data)
+
+
+@app.route('/runs/nearby')
+def nearby():
+	return
 
 
 if __name__ == '__main__':

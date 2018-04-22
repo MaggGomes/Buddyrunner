@@ -1,3 +1,4 @@
+import re
 import urllib
 from flask import session, request
 from api.keys import twitter_access_token, twitter_consumer_key, twitter_consumer_secret
@@ -70,15 +71,16 @@ def tw_filter_friends(data, user_id):
 
 # Return basic run info (id, message, creator)
 def tw_get_run_basic_info(tweet):
-	return {
+	run_info = {
 		'id': tweet['id'],
-		'text': tweet['text'],
 		'creator': {
 			'id': tweet['user']['id'],
 			'name': tweet['user']['name'],
 			'image': tweet['user']['profile_image_url']
 		}
 	}
+	run_info.update(tw_get_run_info(tweet['text']))
+	return run_info
 
 
 # Return complete info of a run from id (basic + participants + weather + path)
@@ -94,4 +96,30 @@ def tw_get_run_complete_info(tweet):
 				'image': tweet['user']['profile_image_url']
 			}
 		})
+	return data
+
+
+# Return run info from tweet text
+def tw_get_run_info(text):
+	data = {}
+	lines = text.split('\n')
+	for line in lines:
+		try:
+			line = re.sub('#[^ ]*', '', line)  # remove hashtags
+			line = line.split(': ')  # split key/values
+			line[1] = line[1].strip()  # trim whitespace from values
+			if ('Date' or 'date') in line[0]:
+				data['date'] = re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', line[1]).group(0)
+				data['time'] = re.search('[\d]+:[\d]+', line[1]).group(0)
+			elif ('Location' or 'location') in line[0]:
+				data['location'] = line[1]
+			elif ('Distance' or 'distance') in line[0]:
+				data['distance'] = {
+					'value': re.search('[\d]+', line[1]).group(0),
+					'unit': re.search('[\D]+', line[1]).group(0)
+				}
+			elif ('Duration' or 'duration') in line[0]:
+				data['duration'] = line[1]
+		except (IndexError, AttributeError):
+			continue
 	return data
