@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, YellowBox, StatusBar, Image } from 'react-nativ
 import { Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
 
-export default class MyRacesTab extends Component {
+export default class HomeTab extends Component {
 
     static navigationOptions = {
         tabBarIcon: ({tintColor}) => (
@@ -24,11 +24,11 @@ export default class MyRacesTab extends Component {
         return (
             <View style={styles.container}>
                 <Image
-                    source={require('../static/img/map.png')}
+                    source={require('../../static/img/map.png')}
                     style={styles.banner}
                 />
                 <Text style={styles.chrono}>00:00:00</Text>
-                <Text style={{}}>Duration</Text>
+                <Text>Duration</Text>
                 <Button
                     title="Go"
                     titleStyle={{ fontWeight: "700" }}

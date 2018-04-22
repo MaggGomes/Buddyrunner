@@ -1,32 +1,23 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import { ScrollView, FlatList, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import MyRacesTab from './MyRacesTab';
-import MyStatsTab from './MyStatsTab';
-import FollowingTab from './FollowingRacesTab';
-import NearbyRacesTab from './NearbyRacesTab';
-import PastRacesTab from './PastRacesTab';
+import HomeTab from './HomeTab';
+import TabNavRaces from './races/TabNavRaces';
+import TavNavStatistics from './statistics/TabNavStatistics';
 import Icons from 'react-native-vector-icons/Ionicons';
 
 const TabNav = TabNavigator({
-    MyRaces: {
-        screen: MyRacesTab
+    Home: {
+        screen: HomeTab
     },
-    MyStats: {
-        screen: MyStatsTab
+    Races: {
+        screen: TabNavRaces
     },
-    FollowingRaces: {
-        screen: FollowingTab
-    },
-    NearbyRaces: {
-        screen: NearbyRacesTab
-    },
-    PastRaces: {
-        screen: PastRacesTab
-
+    Statistics: {
+        screen: TavNavStatistics
     }
 }, {
-    initialRouteName: 'MyRaces',
+    initialRouteName: 'Home',
     tabBarPosition: 'bottom',
     animationEnabled: true,
     swipeEnabled: true,
@@ -36,13 +27,13 @@ const TabNav = TabNavigator({
             backgroundColor: 'white'
         },
         activeTintColor: '#26a4f3',
-        inactiveTintColor: '#696d6d',
+        inactiveTintColor: '#bfbfbf',
         showIcon: true,
         showLabel: false,
         renderIndicator: () => null
     },
     navigationOptions: {
-        headerTitle: 'Buddyrunner',
+        headerTitle: 'Search',
         headerStyle: {
             backgroundColor: 'white',
             elevation: 0, // Removes bottom shadow of the nav bar
@@ -50,14 +41,11 @@ const TabNav = TabNavigator({
             borderBottomColor: '#bfbfbf'
         },
         headerTitleStyle: {
-            color: '#26a4f3',
-            fontSize: 18,
-            flex: 1,
-            textAlign: 'center'
+            color: '#bfbfbf'
         },
         headerLeft: (
             <TouchableOpacity style={{paddingLeft:20}} onPress={() => alert('search something')}>
-                <Icons name="md-menu" size={30} color="#26a4f3" />
+                <Icons name="md-search" size={30} color="#bfbfbf" />
             </TouchableOpacity>
         ),
         headerRight: (

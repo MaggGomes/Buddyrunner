@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, YellowBox, StatusBar, FlatList, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import Icons from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
-export default class NearbyRacesTab extends Component {
-
+export default class PastRacesTab extends Component {
     static navigationOptions = {
         tabBarIcon: ({tintColor}) => (
-            <Icons name="md-stats" size={24} color={tintColor} />
-        )
+            <Icons name="history" size={24} color={tintColor} />
+        ),
+        tabBarLabel: 'Past Races'
     };
 
     constructor(){

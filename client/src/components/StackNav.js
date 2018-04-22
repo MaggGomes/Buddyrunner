@@ -1,7 +1,7 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import SettingsScreen from './SettingsScreen';
-import AboutScreen from './AboutScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import AboutScreen from './screens/AboutScreen';
 import TabNav from './TabNav';
 
 const StackNav = StackNavigator (
