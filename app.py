@@ -23,6 +23,24 @@ def index():
 	return 'Buddyrunner API'
 
 
+@app.route('/auth', methods=['POST'])
+def auth():
+	data = json.loads(request.data)
+	session['twitter_oauth'] = {}
+
+	session['twitter_oauth']['oauth_token'] = data['token']
+	session['twitter_oauth']['oauth_token_secret'] = data['secret']
+	session['twitter_oauth']['user_id'] = data['id']
+	session['twitter_oauth']['screen_name'] = data['user_name']
+
+	data = tw_make_twitter_request('statuses/user_timeline', 'GET', user_id=data['id']).data
+
+	return Response(
+		json.dumps({'name': data['name'], 'image_url': data['profile_image_url']}),
+		status=200,
+		mimetype='application/json')
+
+
 @app.route('/login')
 def login():
 	callback_url = url_for('oauthorized', next=request.args.get('next'))
@@ -36,6 +54,7 @@ def oauthorized():
 		return Response(json.dumps({'message': 'User failed to login'}), status=200, mimetype='application/json')
 	else:
 		session['twitter_oauth'] = resp
+		print (resp)
 	return Response(status=200)
 
 

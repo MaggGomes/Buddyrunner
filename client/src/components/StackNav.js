@@ -1,22 +1,13 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import TabNav from './TabNav';
-import RunScreen from './screens/RunScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import AboutScreen from './screens/AboutScreen';
-import TabContainer from './TabNav';
-import LoginScreen from './screens/LoginScreen';
+import TabNav from './TabNav';
 
 const StackNav = StackNavigator (
     {
-        Login: {
-            screen: LoginScreen
-        },
         Home: {
-            screen: TabContainer,
-        },
-        GoRun: {
-            screen: RunScreen,
+            screen: TabNav,
         },
         Settings: {
             screen: SettingsScreen
@@ -26,7 +17,7 @@ const StackNav = StackNavigator (
         }
     },
     {
-        initialRouteName: 'Login'
+        initialRouteName: 'Home'
     });
 
 export default StackNav;

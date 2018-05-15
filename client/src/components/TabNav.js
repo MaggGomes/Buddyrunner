@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import { ScrollView, FlatList, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import HomeTab from './HomeTab';
@@ -50,18 +50,10 @@ const TabNav = TabNavigator({
         ),
         headerRight: (
             <TouchableOpacity style={{paddingRight:20}} onPress={() => alert('search something')}>
-                <Image source={{uri: ''/*this.props.image*/}} style={{width: 40, height: 40, borderRadius: 50}} />
+                <Image source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'}} style={{width: 40, height: 40, borderRadius: 50}} />
             </TouchableOpacity>
         )
     }
 });
 
-export default class TabContainer extends Component {
-    render () {
-        return <Text>{this.props.navigation.getParam('name')}{this.props.navigation.getParam('image')}</Text>;
-
-        //return <TabNav screenProps={{name: this.props.navigation.getParam('name'), image: this.props.navigation.getParam('image')}}/>;
-	}
-}
-
-//export default TabContainer;
+export default TabNav;

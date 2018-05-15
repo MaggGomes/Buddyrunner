@@ -52,13 +52,12 @@ export default class HomeTab extends Component {
     }
 
     _renderItem = ({item}) => (
-        <TouchableOpacity style={styles.container} onPress={() => {
-            this.props.navigation.navigate('GoRun');
-        }}>
+        <TouchableOpacity style={styles.container}>
             <ListItem
-                leftIcon={<Icons name="md-sunny" size={36} color={'#26a4f3'} />}
+                roundAvatar
                 title={item.location}
                 subtitle={item.distance}
+                avatar={{uri: item.user}}
             />
         </TouchableOpacity>
     );
@@ -68,7 +67,7 @@ export default class HomeTab extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.welcome}>Welcome {/*this.props.screenProps.navigation.getParam('name')*/}</Text>
+                <Text style={styles.welcome}>Welcome John</Text>
                 <View style={styles.stats}>
                     <View style={styles.statsView}>
                         <View style={styles.cardValue}>
