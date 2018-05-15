@@ -1,9 +1,11 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import TabNav from './TabNav';
+import RunScreen from './screens/RunScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import AboutScreen from './screens/AboutScreen';
 import TabContainer from './TabNav';
-import LoginScreen from './screens/LoginScreen'
+import LoginScreen from './screens/LoginScreen';
 
 const StackNav = StackNavigator (
     {
@@ -12,6 +14,9 @@ const StackNav = StackNavigator (
         },
         Home: {
             screen: TabContainer,
+        },
+        GoRun: {
+            screen: RunScreen,
         },
         Settings: {
             screen: SettingsScreen

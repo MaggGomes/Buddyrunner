@@ -52,12 +52,13 @@ export default class HomeTab extends Component {
     }
 
     _renderItem = ({item}) => (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => {
+            this.props.navigation.navigate('GoRun');
+        }}>
             <ListItem
-                roundAvatar
+                leftIcon={<Icons name="md-sunny" size={36} color={'#26a4f3'} />}
                 title={item.location}
                 subtitle={item.distance}
-                avatar={{uri: item.user}}
             />
         </TouchableOpacity>
     );
