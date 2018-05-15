@@ -4,11 +4,16 @@ import TabNav from './TabNav';
 import RunScreen from './screens/RunScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import AboutScreen from './screens/AboutScreen';
+import TabContainer from './TabNav';
+import LoginScreen from './screens/LoginScreen';
 
 const StackNav = StackNavigator (
     {
+        Login: {
+            screen: LoginScreen
+        },
         Home: {
-            screen: TabNav,
+            screen: TabContainer,
         },
         GoRun: {
             screen: RunScreen,
@@ -21,7 +26,7 @@ const StackNav = StackNavigator (
         }
     },
     {
-        initialRouteName: 'Home'
+        initialRouteName: 'Login'
     });
 
 export default StackNav;
