@@ -67,7 +67,7 @@ export default class HomeTab extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.welcome}>Welcome John</Text>
+                <Text style={styles.welcome}>Welcome {/*this.props.screenProps.navigation.getParam('name')*/}</Text>
                 <View style={styles.stats}>
                     <View style={styles.statsView}>
                         <View style={styles.cardValue}>
