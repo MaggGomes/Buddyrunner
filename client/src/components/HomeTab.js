@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, YellowBox, StatusBar, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 
 export default class HomeTab extends Component {
 
@@ -15,60 +16,68 @@ export default class HomeTab extends Component {
     constructor(){
         super();
         this.state = {
-            data: [{
-                id: '1',
-                user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                location: 'Porto',
-                distance: '20km'
-            },
-                {
-                    id: '2',
-                    user: 'https://randomuser.me/api/portraits/thumb/men/83.jpg',
-                    location: 'Vila do Conde',
-                    distance: '10km'
-                },
-                {
-                    id: '3',
-                    user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                    location: 'Matosinhos',
-                    distance: '8km'
-                },
-                {
-                    id: '4',
-                    user: 'https://randomuser.me/api/portraits/thumb/men/83.jpg',
-                    location: 'Porto',
-                    distance: '20km'
-                },
-                {
-                    id: '5',
-                    user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                    location: 'Maia',
-                    distance: '10km'
-                },
-            ],
+            userName: null,
+            userImage: null,
+            myRuns: [],
             loading: true,
             error: null
         }
     }
 
+    componentDidMount(){
+        const { params } = this.props.navigation.state;
+
+        this.setState({
+            userName: params.name,
+            userImage: params.image
+        });
+
+        axios.get('https://buddyrunner.herokuapp.com/runs')
+            .then((res) => {
+                this.setState({
+                    myRuns: res.data,
+                    loading: false
+                });
+            })
+            .catch((error) =>{
+                this.setState({
+                   loading: false,
+                   error: error
+                });
+            });
+    }
+
     _renderItem = ({item}) => (
         <TouchableOpacity style={styles.container} onPress={() => {
-            this.props.navigation.navigate('GoRun');
+            this.props.navigation.navigate('GoRun', {
+                id: item.id,
+                date: item.date,
+                distance: item.distance,
+                location: item.location
+            });
         }}>
             <ListItem
                 leftIcon={<Icons name="md-sunny" size={36} color={'#26a4f3'} />}
-                title={item.location}
-                subtitle={item.distance}
+                title={
+                    <View style={styles.nextRaces}>
+                        <Text>{item.location}</Text>
+                    </View>
+                }
+                subtitle={
+                    <View style={styles.nextRaces}>
+                        <Text style={{fontSize: 10}}>{item.date}</Text>
+                    </View>
+                }
             />
         </TouchableOpacity>
     );
 
-    _keyExtractor = (item) => item.id;
+    _keyExtractor = (item) => item.id.toString();
 
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.welcome}>Welcome {/*this.props.screenProps.navigation.getParam('name')*/}</Text>
+                <Text style={styles.welcome}>Welcome <Text style={styles.userName}>{ this.state.userName }</Text></Text>
                 <View style={styles.stats}>
                     <View style={styles.statsView}>
                         <View style={styles.cardValue}>
@@ -109,7 +118,7 @@ export default class HomeTab extends Component {
                     <FlatList
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
-                        data={this.state.data}
+                        data={this.state.myRuns}
                         renderItem={this._renderItem}
                         keyExtractor={this._keyExtractor}
                     />
@@ -126,7 +135,11 @@ const styles = StyleSheet.create({
     welcome: {
         marginTop: 20,
         paddingLeft: 20,
-        fontSize: 24
+        fontSize: 22
+    },
+    userName: {
+        fontWeight: '600',
+        color: 'black'
     },
     stats: {
         flex: 1,
@@ -151,6 +164,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         fontSize: 40
+    },
+    nextRaces: {
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    nextRacesSub: {
+      fontSize: 16
     },
     cardFooter: {
         width: '100%',
