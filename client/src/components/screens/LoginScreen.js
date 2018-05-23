@@ -33,15 +33,18 @@ export default class LoginScreen extends Component {
               secret: authTokenSecret
             })
           })
-          .then((response) => {
-
-			  const {navigate} = this.props.navigation;
-			  navigate('Home', {name: response.name, image: response.image_url});
-		  })
+          .then((response) => response.json())
+              .then((response)=>{
+                  this.setState({
+                      isLoggedIn: true
+                  }, ()=> {
+                      const {navigate} = this.props.navigation;
+                      navigate('Home', {name: response.name, image: response.image_url});
+                  });
+              })
           .catch((error) => {
             console.log(error);
           });
-
         }
       })
       .catch(error => {
