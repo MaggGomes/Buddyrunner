@@ -13,7 +13,10 @@
     "react-native-elements": "^0.19.1",
     "react-native-twitter-signin": "^1.0.2",
     "react-native-vector-icons": "^4.6.0",
-    "react-navigation": "^1.5.11"
+    "react-navigation": "^1.5.11",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "thunk": "0.0.1"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
