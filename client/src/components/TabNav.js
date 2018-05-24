@@ -5,6 +5,7 @@ import HomeTab from './HomeTab';
 import TabNavRaces from './races/TabNavRaces';
 import TavNavStatistics from './statistics/TabNavStatistics';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {connect} from "react-redux";
 
 const TabNav = TabNavigator({
     Home: {
@@ -53,7 +54,7 @@ const TabNav = TabNavigator({
             ),
             headerRight: (
                 <TouchableOpacity style={{paddingRight:20}} onPress={() => alert('search something')}>
-                    <Image source={{uri: params.image}} style={{width: 40, height: 40, borderRadius: 50}} />
+                    <Image source={{uri: 'http://pbs.twimg.com/profile_images/999379008180535297/_K7Qvdm7_normal.jpg'}} style={{width: 40, height: 40, borderRadius: 50}} />
                 </TouchableOpacity>
             )
 
@@ -62,3 +63,5 @@ const TabNav = TabNavigator({
 });
 
 export default TabNav;
+
+//export default connect(store => ({auth: store.auth}))(TabNav);

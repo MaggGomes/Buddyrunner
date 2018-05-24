@@ -1,7 +1,8 @@
-import {FETCH_EVENTS, FETCH_EVENTS_ERROR} from '../actions/types'
+import {AUTH_LOGIN, AUTH_LOGIN_ERROR, AUTH_LOGOUT, AUTH_LOGOUT_ERROR} from '../actions/types'
 
 const initialState = {
     data: [],
+    isLoggedIn: false,
     loading: false,
     error: null
 };
@@ -10,18 +11,30 @@ export default function(state=initialState, action){
     state.loading = true;
 
     switch(action.type){
-        case FETCH_EVENTS:
+        case AUTH_LOGIN:
             return {
                 ...state,
+                isLoggedIn: true,
                 loading: false,
                 data: action.payload,
                 error: null
             };
-        case FETCH_EVENTS_ERROR:
+        case AUTH_LOGIN_ERROR:
             return {
                 ...state,
                 loading: false,
-                data: action.payload
+                error: action.payload
+            };
+        case AUTH_LOGOUT:
+            return {
+                ...state,
+                isLoggedIn: false,
+                error: null
+            };
+        case AUTH_LOGOUT_ERROR:
+            return {
+                ...state,
+                error: action.payload
             };
         default:
             return state;

@@ -3,8 +3,10 @@ import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import {connect} from "react-redux";
+import {fetchMyRuns} from "../../actions/runsActions";
 
-export default class MyRacesTab extends Component {
+class MyRacesTab extends Component {
 
     static navigationOptions = {
         tabBarIcon: ({tintColor}) => (
@@ -12,29 +14,8 @@ export default class MyRacesTab extends Component {
         )
     };
 
-    constructor(){
-        super();
-        this.state = {
-            data: [],
-            loading: true,
-            error: null
-        }
-    }
-
     componentDidMount() {
-        axios.get('https://buddyrunner.herokuapp.com/runs')
-            .then((res)=>{
-                this.setState({
-                    loading: false,
-                    data: res.data
-                });
-            })
-            .catch((error)=>{
-               this.setState({
-                  loading: false,
-                  error: error
-               });
-            });
+        this.props.dispatch(fetchMyRuns);
     }
 
     _renderItem = ({item}) => (
@@ -54,7 +35,7 @@ export default class MyRacesTab extends Component {
         return (
             <View>
                 <FlatList
-                    data={this.state.data}
+                    data={this.props.runs.myRuns}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                 />
@@ -68,3 +49,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     }
 });
+
+export default connect(store => ({runs: store.runs}))(MyRacesTab);

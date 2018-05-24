@@ -1,10 +1,10 @@
 import React from 'react';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
 import { ScrollView, View, Image, Text, StyleSheet } from 'react-native';
-import StackNav from "./StackNav";
-import CreateRaceScreen from "./Screens/SettingsScreen";
-import SettingsScreen from "./Screens/SettingsScreen";
-import AboutScreen from "./Screens/AboutScreen";
+import TabNav from "./TabNav";
+import CreateRaceScreen from "./screens/CreateRaceScreen";
+import SettingsScreen from "./screens/SettingsScreen";
+import AboutScreen from "./screens/AboutScreen";
 import {Dimensions} from "react-native";
 import {Icon} from 'native-base';
 
@@ -24,7 +24,7 @@ const DrawerContentComponent = (props) => (
 /* Drawer Navigation */
 const DrawerNav = DrawerNavigator({
         Home: {
-            screen: StackNav
+            screen: TabNav
         },
         CreateRace: {
             screen: CreateRaceScreen,
@@ -35,7 +35,6 @@ const DrawerNav = DrawerNavigator({
                 )
             }
         },
-
         Settings: {
             screen: SettingsScreen,
             navigationOptions: {

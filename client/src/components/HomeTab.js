@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from '
 import { Button } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
+import {connect} from "react-redux";
+import {fetchMyRuns} from "../actions/runsActions";
 
-export default class HomeTab extends Component {
+class HomeTab extends Component {
 
     static navigationOptions = {
         tabBarIcon: ({tintColor}) => (
@@ -13,38 +14,8 @@ export default class HomeTab extends Component {
         )
     };
 
-    constructor(){
-        super();
-        this.state = {
-            userName: null,
-            userImage: null,
-            myRuns: [],
-            loading: true,
-            error: null
-        }
-    }
-
     componentDidMount(){
-        const { params } = this.props.navigation.state;
-
-        this.setState({
-            userName: params.name,
-            userImage: params.image
-        });
-
-        axios.get('https://buddyrunner.herokuapp.com/runs')
-            .then((res) => {
-                this.setState({
-                    myRuns: res.data,
-                    loading: false
-                });
-            })
-            .catch((error) =>{
-                this.setState({
-                   loading: false,
-                   error: error
-                });
-            });
+        this.props.dispatch(fetchMyRuns());
     }
 
     _renderItem = ({item}) => (
@@ -77,7 +48,7 @@ export default class HomeTab extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.welcome}>Welcome <Text style={styles.userName}>{ this.state.userName }</Text></Text>
+                <Text style={styles.welcome}>Welcome <Text style={styles.userName}>{ this.props.auth.data.name }</Text></Text>
                 <View style={styles.stats}>
                     <View style={styles.statsView}>
                         <View style={styles.cardValue}>
@@ -118,7 +89,7 @@ export default class HomeTab extends Component {
                     <FlatList
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
-                        data={this.state.myRuns}
+                        data={this.props.runs.myRuns}
                         renderItem={this._renderItem}
                         keyExtractor={this._keyExtractor}
                     />
@@ -191,3 +162,5 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     }
 });
+
+export default connect(store => ({auth: store.auth, runs: store.runs}))(HomeTab);
