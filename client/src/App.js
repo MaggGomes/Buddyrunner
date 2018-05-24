@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
+    StyleSheet,
     YellowBox
 } from 'react-native';
 import StackNav from './components/StackNav';

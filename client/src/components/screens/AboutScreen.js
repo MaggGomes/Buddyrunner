@@ -6,7 +6,7 @@ export default class AboutScreen extends Component {
         return (
             <View>
                 <Text>
-                    MyRaces
+                    About
                 </Text>
             </View>
         );

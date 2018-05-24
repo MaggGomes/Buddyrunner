@@ -25,7 +25,7 @@ export default class MyRacesTab extends Component {
         axios.get('https://buddyrunner.herokuapp.com/runs')
             .then((res)=>{
                 this.setState({
-                   loading: false,
+                    loading: false,
                     data: res.data
                 });
             })

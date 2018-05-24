@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NativeModules, Text, View, TouchableOpacity, Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import axios from 'axios';
 
 /* from https://github.com/GoldenOwlAsia/react-native-twitter-signin/ */
 const { RNTwitterSignIn } = NativeModules;
@@ -11,40 +11,41 @@ const Constants = {
 };
 
 export default class LoginScreen extends Component {
-  state = {
-    isLoggedIn: false
-  };
+    constructor(){
+        super();
+        this.state = {
+            isLoggedIn: false,
+            error: null
+        }
+    }
 
-  _twitterSignIn = () => {
+    _twitterSignIn = () => {
     RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
     RNTwitterSignIn.logIn()
       .then(loginData => {
-        console.log(loginData);
         const { authToken, authTokenSecret, userID, userName, name } = loginData;
-        if (authToken && authTokenSecret) {
 
-          fetch('https://buddyrunner.herokuapp.com/auth', {
-            method: 'POST',
-            body: JSON.stringify({
-              id: userID,
-              user_name: userName,
-              name: name,
-              token: authToken,
-              secret: authTokenSecret
+        if (authToken && authTokenSecret) {
+            axios.post('https://buddyrunner.herokuapp.com/auth', {
+                id: userID,
+                user_name: userName,
+                name: name,
+                token: authToken,
+                secret: authTokenSecret
             })
-          })
-          .then((response) => response.json())
-              .then((response)=>{
-                  this.setState({
-                      isLoggedIn: true
-                  }, ()=> {
-                      const {navigate} = this.props.navigation;
-                      navigate('Home', {name: response.name, image: response.image_url});
-                  });
-              })
-          .catch((error) => {
-            console.log(error);
-          });
+                .then((res)=>{
+                    this.setState({
+                        isLoggedIn: true
+                    }, ()=>{
+                        const {navigate} = this.props.navigation;
+                        navigate('Home', {name: res.data.name, image: res.data.image_url});
+                    })
+                })
+                .catch((error)=>{
+                    this.setState({
+                        error: error
+                    });
+                });
         }
       })
       .catch(error => {
