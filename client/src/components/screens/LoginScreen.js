@@ -15,12 +15,12 @@ class LoginScreen extends Component {
     _signIn = async () => {
         try {
             await this.props.dispatch(authLoginUser());
-
             const {navigate} = this.props.navigation;
-            navigate('Home');
+
+            navigate('Home', {image: this.props.auth.data.image_url});
 
         } catch(error) {
-
+            console.log(error);
         }
   };
 

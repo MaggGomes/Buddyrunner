@@ -77,7 +77,7 @@ class HomeTab extends Component {
                             height: 45,
                             borderColor: "transparent",
                             borderWidth: 0,
-                            borderRadius: 5,
+                            borderRadius: 10,
                             marginTop: 40,
                             marginBottom: 40
                         }}

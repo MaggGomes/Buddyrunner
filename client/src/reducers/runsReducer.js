@@ -1,4 +1,7 @@
-import {FETCH_FRIENDS_RUNS, FETCH_FRIENDS_RUNS_ERROR, FETCH_MY_RUNS, FETCH_MY_RUNS_ERROR,} from '../actions/types'
+import {
+    CREATE_RUN, CREATE_RUN_ERROR, FETCH_FRIENDS_RUNS, FETCH_FRIENDS_RUNS_ERROR, FETCH_MY_RUNS,
+    FETCH_MY_RUNS_ERROR
+} from '../actions/types'
 
 const initialState = {
     myRuns: [],
@@ -38,6 +41,16 @@ export default function(state=initialState, action){
             return {
                 ...state,
                 loading: false,
+                error: action.payload
+            };
+        case CREATE_RUN:
+            return {
+                ...state,
+                error: null
+            };
+        case CREATE_RUN_ERROR:
+            return {
+                ...state,
                 error: action.payload
             };
         default:

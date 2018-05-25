@@ -13,7 +13,7 @@ const DrawerContentComponent = (props) => (
     <ScrollView>
         <View style={styles.container}>
 
-            <Text style={styles.user}>Manuel Gomes</Text>
+            <Text style={styles.name}>Buddyrunner</Text>
         </View>
         <View>
             <DrawerItems {...props} />
@@ -24,14 +24,20 @@ const DrawerContentComponent = (props) => (
 /* Drawer Navigation */
 const DrawerNav = DrawerNavigator({
         Home: {
-            screen: TabNav
+            screen: TabNav,
+            navigationOptions: {
+                title: 'Home',
+                drawerIcon: ({tintColor}) => (
+                    <Icon name="md-home" size={25} tintColor="tintColor" />
+                )
+            }
         },
         CreateRace: {
             screen: CreateRaceScreen,
             navigationOptions: {
                 title: 'Create Race',
                 drawerIcon: ({tintColor}) => (
-                    <Icon name="settings" size={25} tintColor="tintColor" />
+                    <Icon name="md-calendar" size={25} tintColor="tintColor" />
                 )
             }
         },
@@ -40,7 +46,7 @@ const DrawerNav = DrawerNavigator({
             navigationOptions: {
                 title: 'Settings',
                 drawerIcon: ({tintColor}) => (
-                    <Icon name="settings" size={25} tintColor="tintColor" />
+                    <Icon name="md-settings" size={25} tintColor="tintColor" />
                 )
             }
         },
@@ -49,16 +55,16 @@ const DrawerNav = DrawerNavigator({
             navigationOptions: {
                 title: 'About',
                 drawerIcon: ({tintColor}) => (
-                    <Icon name="help-circle" size={25} tintColor="tintColor" />
+                    <Icon name="md-help-circle" size={25} tintColor="tintColor" />
                 )
             }
         }
     }, {
         initialRouteName: 'Home',
-        drawerPosition: 'left',
+        drawerPosition: 'right',
         drawerWidth: Dimensions.get('window').width / 1.5,
         contentOptions: {
-            activeTintColor: '#494949',
+            activeTintColor: '#26a4f3',
             inactiveTintColor:  '#494949'
         },
         contentComponent: DrawerContentComponent
@@ -71,9 +77,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 200,
-        backgroundColor: '#0145CD',
+        backgroundColor: '#26a4f3',
     },
-    user: {
+    name: {
         color: 'white', marginTop: 20
     }
 });

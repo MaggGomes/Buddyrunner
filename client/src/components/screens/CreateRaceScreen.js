@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, YellowBox, StatusBar } from 'react-native';
+import CreateRaceForm from '../forms/CreateRaceForm'
+import {createRun} from "../../actions/runsActions";
+import {connect} from "react-redux";
 
-export default class CreateRaceScreen extends Component {
+class CreateRaceScreen extends Component {
+
+    handleSubmit = (values) => {
+        this.props.dispatch(createRun(
+            values.Date,
+            values.Location,
+            values.Distance,
+            values.Duration));
+    };
+
     render() {
         return (
-            <View>
-                <Text>
-                    Create Race
-                </Text>
-            </View>
+            <CreateRaceForm onSubmit={this.handleSubmit}/>
         );
     }
 }
+
+export default connect(store => ({auth: store.auth, runs: store.runs}))(CreateRaceScreen);

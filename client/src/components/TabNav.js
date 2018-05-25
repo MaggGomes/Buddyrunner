@@ -53,7 +53,7 @@ const TabNav = TabNavigator({
                 </TouchableOpacity>
             ),
             headerRight: (
-                <TouchableOpacity style={{paddingRight:20}} onPress={() => alert('search something')}>
+                <TouchableOpacity style={{paddingRight:20}} onPress={() => navigation.navigate('DrawerOpen')} >
                     <Image source={{uri: 'http://pbs.twimg.com/profile_images/999379008180535297/_K7Qvdm7_normal.jpg'}} style={{width: 40, height: 40, borderRadius: 50}} />
                 </TouchableOpacity>
             )
@@ -63,5 +63,3 @@ const TabNav = TabNavigator({
 });
 
 export default TabNav;
-
-//export default connect(store => ({auth: store.auth}))(TabNav);
