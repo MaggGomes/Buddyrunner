@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {connect} from "react-redux";
 import {fetchMyRuns} from "../actions/runsActions";
+import { Button, Icon } from 'native-base';
 
 class HomeTab extends Component {
 
@@ -68,21 +68,10 @@ class HomeTab extends Component {
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button
-                        title="Create Race"
-                        titleStyle={{ fontWeight: "700" }}
-                        buttonStyle={{
-                            backgroundColor: "#26a4f3",
-                            width: 200,
-                            height: 45,
-                            borderColor: "transparent",
-                            borderWidth: 0,
-                            borderRadius: 10,
-                            marginTop: 40,
-                            marginBottom: 40
-                        }}
-                        containerStyle={{ marginTop: 20 }}
-                    />
+                    <Button block iconLeft>
+                        <Icon name='home' />
+                        <Text>Create Race</Text>
+                    </Button>
                 </View>
                 <View style={{paddingLeft: 20}}>
                     <Text style={{fontSize: 20}}>Next races</Text>
@@ -159,7 +148,11 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginTop: 40,
+        marginBottom: 40
     }
 });
 

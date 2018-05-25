@@ -41,34 +41,37 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        paddingLeft: 20,
+        paddingRight: 20,
+        alignSelf: 'stretch'
     },
     formTitle: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: 'bold',
-        width: 200,
         textAlign: 'left',
-        margin: 10,
-        color: '#26a4f3'
+        color: '#26a4f3',
+        marginBottom: 40
     },
     input: {
-        borderColor: '#26a4f3',
-        borderWidth: 2,
-        borderRadius: 10,
-        height: 37,
-        width: 220,
+        height: 40,
+        borderBottomColor: '#26a4f3',
+        borderBottomWidth: 1,
         marginBottom: 20
     },
     formSubmitContainer: {
-        alignItems: 'center'
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        backgroundColor: '#26a4f3',
+        justifyContent: 'center',
+        height: 40,
+        marginTop: 20
     },
     formSubmit: {
         backgroundColor: '#26a4f3',
         color: 'white',
-        height: 37,
-        width: 220,
         borderWidth: 0,
-        borderRadius: 10,
+        fontWeight: 'bold',
+        alignSelf: 'stretch',
         textAlign: 'center'
     }
 });

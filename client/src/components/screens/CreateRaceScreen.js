@@ -5,12 +5,15 @@ import {connect} from "react-redux";
 
 class CreateRaceScreen extends Component {
 
-    handleSubmit = (values) => {
-        this.props.dispatch(createRun(
+    handleSubmit = async (values) => {
+        await this.props.dispatch(createRun(
             values.Date,
             values.Location,
             values.Distance,
-            values.Duration));
+            values.Duration)
+        );
+
+        this.props.navigation.navigate('Home');
     };
 
     render() {

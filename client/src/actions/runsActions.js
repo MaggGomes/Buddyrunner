@@ -28,19 +28,23 @@ export const fetchFriendsRuns = () => dispatch =>{
         }));
 };
 
-export const createRun = (date, location, distance, duration) => dispatch =>{
-    axios.post('https://buddyrunner.herokuapp.com/runs/create', {
-        date: date,
-        location: location,
-        distance: distance,
-        duration: duration
-    })
-        .then((res) => dispatch({
+export const createRun = (date, location, distance, duration) => async dispatch =>{
+    try {
+        const res = await axios.post('https://buddyrunner.herokuapp.com/runs/create', {
+            date: date,
+            location: location,
+            distance: distance,
+            duration: duration
+        });
+
+        dispatch({
             type: CREATE_RUN,
             payload: res.data
-        }))
-        .catch((error) => dispatch({
+        })
+    }catch (error){
+        dispatch({
             type: CREATE_RUN_ERROR,
             payload: error
-        }));
+        })
+    }
 };

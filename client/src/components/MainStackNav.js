@@ -6,7 +6,7 @@ import LoginScreen from './screens/LoginScreen';
 const MainStackNav = StackNavigator (
     {
         Login: {
-            screen: LoginScreen
+            screen: LoginScreen,
         },
         HomeDrawerNav: {
             screen: DrawerNav,
