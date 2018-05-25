@@ -67,12 +67,12 @@ class HomeTab extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <Button block iconLeft>
-                        <Icon name='home' />
-                        <Text>Create Race</Text>
+                <TouchableOpacity style={styles.buttonContainer}>
+                    <Button block iconLeft style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }}>
+                        <Icon name='directions-run' type='MaterialIcons' />
+                        <Text style={{color: 'white', fontWeight: 'bold'}}>Create Race</Text>
                     </Button>
-                </View>
+                </TouchableOpacity>
                 <View style={{paddingLeft: 20}}>
                     <Text style={{fontSize: 20}}>Next races</Text>
                     <FlatList
@@ -146,9 +146,6 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     buttonContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
         paddingLeft: 20,
         paddingRight: 20,
         marginTop: 40,
