@@ -2,14 +2,18 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import DrawerNav from './DrawerNav';
 import LoginScreen from './screens/LoginScreen';
+import RunScreen from './screens/RunScreen';
 
 const MainStackNav = StackNavigator (
     {
         Login: {
-            screen: LoginScreen,
+            screen: LoginScreen
         },
         HomeDrawerNav: {
-            screen: DrawerNav,
+            screen: DrawerNav
+        },
+        RunScreen: {
+            screen: RunScreen
         }
     },
     {

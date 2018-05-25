@@ -1,6 +1,6 @@
 import {
     FETCH_MY_RUNS_ERROR, FETCH_MY_RUNS, FETCH_FRIENDS_RUNS, FETCH_FRIENDS_RUNS_ERROR, CREATE_RUN,
-    CREATE_RUN_ERROR
+    CREATE_RUN_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -47,4 +47,16 @@ export const createRun = (date, location, distance, duration) => async dispatch 
             payload: error
         })
     }
+};
+
+export const fetchSingleRun = (id) => dispatch =>{
+    axios.get('https://buddyrunner.herokuapp.com/runs/'+id)
+        .then((res) => dispatch({
+            type: FETCH_SINGLE_RUN,
+            payload: res.data
+        }))
+        .catch((error) => dispatch({
+            type: FETCH_SINGLE_RUN_ERROR,
+            payload: error
+        }));
 };

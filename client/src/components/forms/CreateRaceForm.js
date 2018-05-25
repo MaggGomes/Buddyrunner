@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 import {Field, reduxForm} from 'redux-form';
+import {Button} from 'native-base';
 
 const submit = (values) => {
     console.log('submitting form', values)
@@ -29,9 +30,11 @@ const CreateRaceForm = props => {
             <Field keyboardType="default" label="Distance" component={renderField} name="Distance" />
             <Field keyboardType="default" label="Duration" component={renderField} name="Duration" />
 
-            <TouchableOpacity style={styles.formSubmitContainer} onPress={handleSubmit}>
-                <Text style={styles.formSubmit}>Submit</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer} >
+                <Button block style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={handleSubmit}>
+                    <Text style={{color: 'white', fontWeight: 'bold'}}>Submit</Text>
+                </Button>
+            </View>
         </View>
     )
 };
@@ -58,21 +61,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginBottom: 20
     },
-    formSubmitContainer: {
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        backgroundColor: '#26a4f3',
-        justifyContent: 'center',
-        height: 40,
-        marginTop: 20
-    },
-    formSubmit: {
-        backgroundColor: '#26a4f3',
-        color: 'white',
-        borderWidth: 0,
-        fontWeight: 'bold',
-        alignSelf: 'stretch',
-        textAlign: 'center'
+    buttonContainer: {
+        marginTop: 40,
+        marginBottom: 40
     }
 });
 

@@ -3,7 +3,7 @@ import {AUTH_LOGIN, AUTH_LOGIN_ERROR, AUTH_LOGOUT, AUTH_LOGOUT_ERROR} from '../a
 const initialState = {
     data: [],
     isLoggedIn: false,
-    loading: false,
+    loading: true,
     error: null
 };
 

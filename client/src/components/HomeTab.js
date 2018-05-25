@@ -20,7 +20,10 @@ class HomeTab extends Component {
 
     _renderItem = ({item}) => (
         <TouchableOpacity style={styles.container} onPress={() => {
-            this.props.navigation.navigate('GoRun', {
+            console.log(3432543242);
+            console.log(item.id);
+
+            this.props.navigation.navigate('RunScreen', {
                 id: item.id,
                 date: item.date,
                 distance: item.distance,
@@ -28,7 +31,8 @@ class HomeTab extends Component {
             });
         }}>
             <ListItem
-                leftIcon={<Icons name="md-sunny" size={36} color={'#26a4f3'} />}
+                roundAvatar
+                avatar={{uri: item.creator.image}}
                 title={
                     <View style={styles.nextRaces}>
                         <Text>{item.location}</Text>
@@ -48,7 +52,8 @@ class HomeTab extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.welcome}>Welcome <Text style={styles.userName}>{ this.props.auth.data.name }</Text></Text>
+                <Text style={styles.welcome}>Welcome</Text>
+                <Text style={styles.userName}>{ this.props.auth.data.name }</Text>
                 <View style={styles.stats}>
                     <View style={styles.statsView}>
                         <View style={styles.cardValue}>
@@ -67,12 +72,15 @@ class HomeTab extends Component {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.buttonContainer}>
-                    <Button block iconLeft style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }}>
+                <View style={styles.buttonContainer} >
+                    <Button block iconLeft style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={()=>{
+
+                        this.props.navigation.navigate('CreateRace')
+                    }}>
                         <Icon name='directions-run' type='MaterialIcons' />
                         <Text style={{color: 'white', fontWeight: 'bold'}}>Create Race</Text>
                     </Button>
-                </TouchableOpacity>
+                </View>
                 <View style={{paddingLeft: 20}}>
                     <Text style={{fontSize: 20}}>Next races</Text>
                     <FlatList
@@ -95,11 +103,13 @@ const styles = StyleSheet.create({
     welcome: {
         marginTop: 20,
         paddingLeft: 20,
-        fontSize: 22
+        fontSize: 18
     },
     userName: {
         fontWeight: '600',
-        color: 'black'
+        fontSize: 24,
+        color: '#26a4f3',
+        paddingLeft: 20
     },
     stats: {
         flex: 1,
