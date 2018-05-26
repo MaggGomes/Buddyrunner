@@ -46,6 +46,7 @@ def tw_make_twitter_request(endpoint, method, **params):
 	url = 'https://api.twitter.com/1.1/{0}.json'.format(endpoint)
 	if params:
 		url = '{}?{}'.format(url, urllib.urlencode(params))
+	print(url)
 	return twitter.request(url, method=method)
 
 
