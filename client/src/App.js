@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
+    StyleSheet,
     YellowBox
 } from 'react-native';
-import StackNav from './components/StackNav';
+import MainStackNav from './components/MainStackNav';
+import {Provider} from 'react-redux';
+import store from './store/store';
 
 YellowBox.ignoreWarnings([
     'Warning: isMounted',
@@ -14,7 +14,9 @@ YellowBox.ignoreWarnings([
 export default class App extends Component {
   render() {
     return (
-      <StackNav />
+        <Provider store={store}>
+            <MainStackNav/>
+        </Provider>
     );
   }
 }

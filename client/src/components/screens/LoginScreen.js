@@ -1,64 +1,35 @@
 import React, { Component } from 'react';
-import { NativeModules, Text, View, TouchableOpacity, Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { Text, View, TouchableOpacity, Button } from 'react-native';
+import {connect} from 'react-redux';
+import {authLoginUser, authLogoutUser} from '../../actions/authActions'
 
-/* from https://github.com/GoldenOwlAsia/react-native-twitter-signin/ */
-const { RNTwitterSignIn } = NativeModules;
-
-const Constants = {
-    TWITTER_COMSUMER_KEY: 'QZVbxlEKetOIdlXa28eNIxw0W',
-    TWITTER_CONSUMER_SECRET: 'nKO7bGTK6IamSeA8swBwcbJk6V4UwREVQBYfQFO52N3kt3RDEa'
-};
-
-export default class LoginScreen extends Component {
-  state = {
-    isLoggedIn: false
-  };
-
-  _twitterSignIn = () => {
-    RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-    RNTwitterSignIn.logIn()
-      .then(loginData => {
-        console.log(loginData);
-        const { authToken, authTokenSecret, userID, userName, name } = loginData;
-        if (authToken && authTokenSecret) {
-
-          fetch('https://buddyrunner.herokuapp.com/auth', {
-            method: 'POST',
-            body: JSON.stringify({
-              id: userID,
-              user_name: userName,
-              name: name,
-              token: authToken,
-              secret: authTokenSecret
-            })
-          })
-          .then((response) => {
-			  const {navigate} = this.props.navigation;
-			  navigate('Home', {name: response.name, image: response.image_url});
-		  })
-          .catch((error) => {
-            console.log(error);
-          });
-
+class LoginScreen extends Component {
+    constructor(){
+        super();
+        this.state = {
+            isLoggedIn: false,
+            error: null
         }
-      })
-      .catch(error => {
-        console.log(error)
-      }
-    )
+    }
+
+    _signIn = async () => {
+        try {
+            await this.props.dispatch(authLoginUser());
+            const {navigate} = this.props.navigation;
+
+            navigate('Home', {image: this.props.auth.data.image_url});
+
+        } catch(error) {
+            console.log(error);
+        }
   };
 
   handleLogout = () => {
-    console.log("logout");
-    RNTwitterSignIn.logOut();
-    this.setState({
-      isLoggedIn: false
-    })
+      this.props.dispatch(authLogoutUser());
   };
 
   render() {
-    const { isLoggedIn } = this.state;
+    const isLoggedIn = this.props.isLoggedIn;
     return (
       <View style={{ flex: 1 }}>
 		  {isLoggedIn
@@ -79,10 +50,12 @@ export default class LoginScreen extends Component {
 					  marginBottom: 40
 				  }}
 				  containerStyle={{marginTop: 20}}
-				  onPress={this._twitterSignIn}
+				  onPress={this._signIn}
 			  />
 		  }
       </View>
     )
   }
 }
+
+export default connect(store => ({auth: store.auth}))(LoginScreen);

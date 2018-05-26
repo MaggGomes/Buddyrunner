@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, YellowBox, StatusBar, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR} from "../../actions/types";
+import axios from "axios/index";
 
-export default class HomeTab extends Component {
-
-    static navigationOptions = {
-        tabBarIcon: ({tintColor}) => (
-            <Icons name="md-home" size={24} color={tintColor} />
-        )
-    };
+export default class RunScreen extends Component {
 
     constructor(){
         super();
@@ -18,6 +14,18 @@ export default class HomeTab extends Component {
             loading: true,
             error: null
         }
+    }
+
+    componentDidMount(){
+
+        /*axios.get('https://buddyrunner.herokuapp.com/runs/'+999414695026143200)
+            .then((res) => {
+                console.log(2222);
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(3333);
+            });*/
     }
 
     render() {

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, YellowBox, StatusBar, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+import {connect} from "react-redux";
+import {fetchFriendsRuns} from "../../actions/runsActions";
 
-export default class NearbyRacesTab extends Component {
+class FollowingRacesTab extends Component {
 
     static navigationOptions = {
         tabBarIcon: ({tintColor}) => (
@@ -11,42 +14,8 @@ export default class NearbyRacesTab extends Component {
         )
     };
 
-    constructor(){
-        super();
-        this.state = {
-            data: [{
-                id: '1',
-                user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                location: 'Porto',
-                distance: '20km',
-            },
-                {
-                    id: '2',
-                    user: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-                    location: 'Vila do Conde',
-                    distance: '10km'
-                },
-                {
-                    id: '3',
-                    user: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-                    location: 'Matosinhos',
-                    distance: '8km'
-                },
-                {
-                    id: '4',
-                    user: 'https://randomuser.me/api/portraits/thumb/men/83.jpg',
-                    location: 'Porto',
-                    distance: '20km'
-                },
-                {
-                    id: '5',
-                    user: 'https://randomuser.me/api/portraits/thumb/men/83.jpg',
-                    location: 'Maia',
-                    distance: '10km'
-                }],
-            loading: true,
-            error: null
-        }
+    componentDidMount() {
+        this.props.dispatch(fetchFriendsRuns());
     }
 
     _renderItem = ({item}) => (
@@ -54,19 +23,19 @@ export default class NearbyRacesTab extends Component {
             <ListItem
                 roundAvatar
                 title={item.location}
-                subtitle={item.distance}
-                avatar={{uri: item.user}}
+                subtitle={item.distance.value+item.distance.unit}
+                avatar={{uri: item.creator.image}}
             />
         </TouchableOpacity>
     );
 
-    _keyExtractor = (item) => item.id;
+    _keyExtractor = (item) => item.id.toString();
 
     render() {
         return (
             <View>
                 <FlatList
-                    data={this.state.data}
+                    data={this.props.runs.friendsRuns}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                 />
@@ -80,3 +49,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     }
 });
+
+export default connect(store => ({runs: store.runs}))(FollowingRacesTab);

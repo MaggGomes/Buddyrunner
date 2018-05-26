@@ -6,7 +6,7 @@ export default class SettingsScreen extends Component {
         return (
             <View>
                 <Text>
-                    MyRaces
+                    Settings
                 </Text>
             </View>
         );

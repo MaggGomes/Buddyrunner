@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, YellowBox, StatusBar, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {connect} from "react-redux";
+import {fetchMyRuns} from "../actions/runsActions";
+import { Button, Icon } from 'native-base';
 
-export default class HomeTab extends Component {
+class HomeTab extends Component {
 
     static navigationOptions = {
         tabBarIcon: ({tintColor}) => (
@@ -12,63 +14,46 @@ export default class HomeTab extends Component {
         )
     };
 
-    constructor(){
-        super();
-        this.state = {
-            data: [{
-                id: '1',
-                user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                location: 'Porto',
-                distance: '20km'
-            },
-                {
-                    id: '2',
-                    user: 'https://randomuser.me/api/portraits/thumb/men/83.jpg',
-                    location: 'Vila do Conde',
-                    distance: '10km'
-                },
-                {
-                    id: '3',
-                    user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                    location: 'Matosinhos',
-                    distance: '8km'
-                },
-                {
-                    id: '4',
-                    user: 'https://randomuser.me/api/portraits/thumb/men/83.jpg',
-                    location: 'Porto',
-                    distance: '20km'
-                },
-                {
-                    id: '5',
-                    user: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                    location: 'Maia',
-                    distance: '10km'
-                },
-            ],
-            loading: true,
-            error: null
-        }
+    componentDidMount(){
+        this.props.dispatch(fetchMyRuns());
     }
 
     _renderItem = ({item}) => (
         <TouchableOpacity style={styles.container} onPress={() => {
-            this.props.navigation.navigate('GoRun');
+            console.log(3432543242);
+            console.log(item.id);
+
+            this.props.navigation.navigate('RunScreen', {
+                id: item.id,
+                date: item.date,
+                distance: item.distance,
+                location: item.location
+            });
         }}>
             <ListItem
-                leftIcon={<Icons name="md-sunny" size={36} color={'#26a4f3'} />}
-                title={item.location}
-                subtitle={item.distance}
+                roundAvatar
+                avatar={{uri: item.creator.image}}
+                title={
+                    <View style={styles.nextRaces}>
+                        <Text>{item.location}</Text>
+                    </View>
+                }
+                subtitle={
+                    <View style={styles.nextRaces}>
+                        <Text style={{fontSize: 10}}>{item.date}</Text>
+                    </View>
+                }
             />
         </TouchableOpacity>
     );
 
-    _keyExtractor = (item) => item.id;
+    _keyExtractor = (item) => item.id.toString();
 
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.welcome}>Welcome {/*this.props.screenProps.navigation.getParam('name')*/}</Text>
+                <Text style={styles.welcome}>Welcome</Text>
+                <Text style={styles.userName}>{ this.props.auth.data.name }</Text>
                 <View style={styles.stats}>
                     <View style={styles.statsView}>
                         <View style={styles.cardValue}>
@@ -87,29 +72,21 @@ export default class HomeTab extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <Button
-                        title="Create Race"
-                        titleStyle={{ fontWeight: "700" }}
-                        buttonStyle={{
-                            backgroundColor: "#26a4f3",
-                            width: 200,
-                            height: 45,
-                            borderColor: "transparent",
-                            borderWidth: 0,
-                            borderRadius: 5,
-                            marginTop: 40,
-                            marginBottom: 40
-                        }}
-                        containerStyle={{ marginTop: 20 }}
-                    />
+                <View style={styles.buttonContainer} >
+                    <Button block iconLeft style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={()=>{
+
+                        this.props.navigation.navigate('CreateRace')
+                    }}>
+                        <Icon name='directions-run' type='MaterialIcons' />
+                        <Text style={{color: 'white', fontWeight: 'bold'}}>Create Race</Text>
+                    </Button>
                 </View>
                 <View style={{paddingLeft: 20}}>
                     <Text style={{fontSize: 20}}>Next races</Text>
                     <FlatList
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
-                        data={this.state.data}
+                        data={this.props.runs.myRuns}
                         renderItem={this._renderItem}
                         keyExtractor={this._keyExtractor}
                     />
@@ -126,7 +103,13 @@ const styles = StyleSheet.create({
     welcome: {
         marginTop: 20,
         paddingLeft: 20,
-        fontSize: 24
+        fontSize: 18
+    },
+    userName: {
+        fontWeight: '600',
+        fontSize: 24,
+        color: '#26a4f3',
+        paddingLeft: 20
     },
     stats: {
         flex: 1,
@@ -152,6 +135,13 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 40
     },
+    nextRaces: {
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    nextRacesSub: {
+      fontSize: 16
+    },
     cardFooter: {
         width: '100%',
         height: 40,
@@ -166,8 +156,11 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     buttonContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start'
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginTop: 40,
+        marginBottom: 40
     }
 });
+
+export default connect(store => ({auth: store.auth, runs: store.runs}))(HomeTab);
