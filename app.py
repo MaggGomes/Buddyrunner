@@ -69,9 +69,9 @@ def logout():
 def runs():
 	if request.method == 'GET':
 		user_name = session['twitter_oauth']['screen_name']
-		data = tw_make_twitter_request('statuses/user_timeline', 'GET', screen_name=user_name, include_rts=True).data
+		data = tw_make_twitter_request('statuses/user_timeline', 'GET', screen_name=user_name, include_rts='true').data
 		return json.dumps([
-			tw_get_run_basic_info(t)
+			tw_get_run_info(t)
 			for t
 			in tw_filter_runs(data)])
 
@@ -98,7 +98,7 @@ def friends():
 	user_name = session['twitter_oauth']['screen_name']
 	data = tw_make_twitter_request('statuses/home_timeline', 'GET', screen_name=user_name).data
 	return json.dumps([
-		tw_get_run_basic_info(t)
+		tw_get_run_info(t)
 		for t
 		in tw_filter_friends(tw_filter_runs(data), session['twitter_oauth']['user_id'])])
 
@@ -107,7 +107,7 @@ def friends():
 def run(tweet_id):
 	data = tw_make_twitter_request('statuses/show', 'GET', id=tweet_id).data
 	run_info = [
-		tw_get_run_complete_info(t)
+		tw_get_run_info(t)
 		for t
 		in tw_filter_runs([data])][0]
 	run_info.update(get_weather(0, 0, 0))

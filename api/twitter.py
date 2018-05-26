@@ -71,7 +71,10 @@ def tw_filter_friends(data, user_id):
 
 
 # Return basic run info (id, message, creator)
-def tw_get_run_basic_info(tweet):
+def tw_get_run_info(tweet):
+	if 'retweeted_status' in tweet:
+		tweet = tweet['retweeted_status']
+
 	run_info = {
 		'id': tweet['id'],
 		'creator': {
@@ -80,28 +83,13 @@ def tw_get_run_basic_info(tweet):
 			'image': tweet['user']['profile_image_url']
 		}
 	}
-	run_info.update(tw_get_run_info(tweet['text']))
+	run_info.update(tw_get_run_body_info(tweet['text']))
+	run_info.update(tw_get_run_extra_info(tweet['id'], tweet['user']['id']))
 	return run_info
 
 
-# Return complete info of a run from id (basic + participants + weather + path)
-def tw_get_run_complete_info(tweet):
-	data = tw_get_run_basic_info(tweet)
-	data['participants'] = []
-	retweets = tw_make_twitter_request('statuses/retweets', 'GET', id=data['id']).data
-	for tweet in retweets:
-		data['participants'].append({
-			'user': {
-				'id': tweet['user']['id'],
-				'name': tweet['user']['name'],
-				'image': tweet['user']['profile_image_url']
-			}
-		})
-	return data
-
-
-# Return run info from tweet text
-def tw_get_run_info(text):
+# Processes and return the info on the tweet body
+def tw_get_run_body_info(text):
 	data = {}
 	lines = text.split('\n')
 	for line in lines:
@@ -110,8 +98,17 @@ def tw_get_run_info(text):
 			line = line.split(': ')  # split key/values
 			line[1] = line[1].strip()  # trim whitespace from values
 			if ('Date' or 'date') in line[0]:
-				data['date'] = re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', line[1]).group(0)
-				data['time'] = re.search('[\d]+:[\d]+', line[1]).group(0)
+				date = re.split('-/', re.search('[\d]+(-/)[\d]+(-/)[\d]+', line[1]).group(0))
+				data['date'] = {
+					'day': date[0],
+					'month': date[1],
+					'year': date[2]
+				}
+				time = re.split(':', re.search('[\d]+:[\d]+', line[1]).group(0))
+				data['time'] = {
+					'hour': time[0],
+					'minute': time[1]
+				}
 			elif ('Location' or 'location') in line[0]:
 				data['location'] = line[1]
 			elif ('Distance' or 'distance') in line[0]:
@@ -123,4 +120,20 @@ def tw_get_run_info(text):
 				data['duration'] = line[1]
 		except (IndexError, AttributeError):
 			continue
+	return data
+
+
+# Returns participants of a race
+def tw_get_run_extra_info(tweet_id, creator_id):
+	data = {'participants': []}
+	retweets = tw_make_twitter_request('statuses/retweets', 'GET', id=tweet_id).data
+	for tweet in retweets:
+		if tweet['user']['id'] != creator_id:
+			data['participants'].append({
+				'user': {
+					'id': tweet['user']['id'],
+					'name': tweet['user']['name'],
+					'image': tweet['user']['profile_image_url']
+				}
+			})
 	return data
