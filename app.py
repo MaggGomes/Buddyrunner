@@ -33,6 +33,7 @@ def auth():
 	session['twitter_oauth']['user_id'] = data['id']
 	session['twitter_oauth']['screen_name'] = data['user_name']
 
+	print(session['twitter_oauth'])
 	data = tw_make_twitter_request('users/show', 'GET', user_id=data['id']).data
 
 	return Response(
@@ -77,7 +78,7 @@ def runs():
 
 @app.route('/runs/create', methods=['POST'])
 def create():
-	req = request.values.to_dict()
+	req = json.loads(request.data)
 	tweet = ''
 	if req.get('date'):
 		tweet += 'Date: {0}\n'.format(req.get('date'))
