@@ -1,6 +1,7 @@
 import re
 import urllib
 import time
+import datetime
 from api.maps import *
 from api.weather import *
 from flask import session, request
@@ -52,6 +53,13 @@ def tw_make_twitter_request(endpoint, method, **params):
     print(url)
     return twitter.request(url, method=method)
 
+#Extract_time
+def extract_time(json):
+    try:
+        date = datetime.datetime.strptime(re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', json['text']).group(0), "%d/%m/%Y")
+        return date
+    except KeyError:
+        return 0
 
 # Return tweets that have #buddyrunner
 def tw_filter_runs(data):
@@ -61,7 +69,7 @@ def tw_filter_runs(data):
         for hashtag in hashtags:
             if 'buddyrunner' in hashtag['text']:
                 run_list.append(tweet)
-    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+[-/][\d]+[-/][\d]+', x['text']))
+    sorted_runs = sorted(run_list, key=extract_time)
     return sorted_runs
 
 
@@ -71,7 +79,7 @@ def tw_filter_friends(data, user_id):
     for tweet in data:
         if str(tweet['user']['id']) != str(user_id):
             run_list.append(tweet)
-    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+[-/][\d]+[-/][\d]+', x['text']))
+    sorted_runs = sorted(run_list, key=extract_time)
     return sorted_runs
 
 
