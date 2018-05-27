@@ -5,9 +5,9 @@ import json
 
 
 def get_weather(lat, lon, time):
-	lat = -8.61
-	lon = 41.15
-	time = 1524398410
+	lat = lat
+	lon = lon
+	time = time
 
 	url = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid={key}'.format(
 		lat=lat, lon=lon, key=weather_key)

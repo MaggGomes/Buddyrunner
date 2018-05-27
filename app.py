@@ -110,7 +110,6 @@ def run(tweet_id):
 		tw_get_run_info(t)
 		for t
 		in tw_filter_runs([data])][0]
-	run_info.update(get_weather(0, 0, 0))
 	return json.dumps(run_info)
 
 
