@@ -16,6 +16,7 @@ def get_weather(lat, lon, time):
         if math.fabs(timestamp['dt'] - time) <= 5400:  # find closest time (half of the 3 hour interval)
             return {
                 'temperature': timestamp['main']['temp'],
-                'weather': timestamp['weather'][0]['description']
+                'weather_id': timestamp['weather'][0]['id'],
+                'weather_icon': timestamp['weather'][0]['icon']
             }
     return {}
