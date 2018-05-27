@@ -10,15 +10,18 @@ app.debug = True
 app.secret_key = 'development'
 tw_start_twitter(app)
 
+
 @app.before_request
 def before_request():
     g.user = None
     if 'twitter_oauth' in session:
         g.user = session['twitter_oauth']
 
+
 @app.route('/')
 def index():
     return 'Buddyrunner API'
+
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -38,10 +41,12 @@ def auth():
         status=200,
         mimetype='application/json')
 
+
 @app.route('/login')
 def login():
     callback_url = url_for('oauthorized', next=request.args.get('next'))
     return Response(json.dumps({'url': tw_get_login_url(callback_url)}), status=200, mimetype='application/json')
+
 
 @app.route('/oauthorized')
 def oauthorized():
@@ -53,10 +58,12 @@ def oauthorized():
         print (resp)
     return Response(status=200)
 
+
 @app.route('/logout')
 def logout():
     session.pop('twitter_oauth', None)
     return Response(status=200)
+
 
 @app.route('/runs')
 def runs():
@@ -68,6 +75,7 @@ def runs():
             tw_get_run_info(t)
             for t
             in tw_filter_runs(data)])
+
 
 @app.route('/runs/create', methods=['POST'])
 def create():
@@ -85,6 +93,7 @@ def create():
     resp = tw_make_twitter_request('statuses/update', 'POST', status=tweet).data
     return json.dumps(resp)
 
+
 @app.route('/runs/friends')
 def friends():
     user_name = session['twitter_oauth']['screen_name']
@@ -94,23 +103,27 @@ def friends():
         for t
         in tw_filter_friends(tw_filter_runs(data), session['twitter_oauth']['user_id'])])
 
+
 @app.route('/runs/<tweet_id>')
 def run(tweet_id):
     data = tw_make_twitter_request('statuses/show', 'GET', id=tweet_id).data
     run_info = [
-        tw_get_run_info(t)
+        tw_get_run_info(t, participants=True)
         for t
         in tw_filter_runs([data])][0]
     return json.dumps(run_info)
+
 
 @app.route('/runs/<tweet_id>/join')
 def join(tweet_id):
     data = tw_make_twitter_request('statuses/retweet', 'POST', id=tweet_id).data
     return json.dumps(data)
 
+
 @app.route('/runs/nearby')
 def nearby():
     return
+
 
 if __name__ == '__main__':
     app.run()
