@@ -2,6 +2,7 @@
 
 from api.twitter import *
 from api.weather import *
+from api.database import *
 from flask import Flask
 from flask import g, session, request, url_for, json, Response
 
@@ -91,6 +92,9 @@ def create():
         tweet += 'Duration: {0}\n'.format(req.get('duration'))
     tweet += '#buddyrunner'
     resp = tw_make_twitter_request('statuses/update', 'POST', status=tweet).data
+    db_insert_run({
+        "id": resp["id"]
+    })
     return json.dumps(resp)
 
 
