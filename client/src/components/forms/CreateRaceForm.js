@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import {Field, reduxForm} from 'redux-form';
 import {Button} from 'native-base';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
 const renderField = ({ label, keyboardType, name, input: { onChange, ...restInput } }) => {
     return (
@@ -26,6 +27,16 @@ const CreateRaceForm = props => {
             <Field keyboardType="default" label="Distance" component={renderField} name="Distance" />
             <Field keyboardType="default" label="Duration" component={renderField} name="Duration" />
 
+				<MapView
+				  provider={PROVIDER_GOOGLE}
+				  style={styles.map}
+				  region={{
+					latitude: 37.78825,
+					longitude: -122.4324,
+					latitudeDelta: 0.015,
+					longitudeDelta: 0.0121,
+				  }}></MapView>
+			
             <View style={styles.buttonContainer} >
                 <Button block style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={handleSubmit}>
                     <Text style={{color: 'white', fontWeight: 'bold'}}>Submit</Text>
