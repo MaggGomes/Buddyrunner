@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import {Field, reduxForm} from 'redux-form';
 import {Button} from 'native-base';
-
-const submit = (values) => {
-    console.log('submitting form', values)
-};
 
 const renderField = ({ label, keyboardType, name, input: { onChange, ...restInput } }) => {
     return (

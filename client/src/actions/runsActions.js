@@ -1,8 +1,20 @@
 import {
     FETCH_MY_RUNS_ERROR, FETCH_MY_RUNS, FETCH_FRIENDS_RUNS, FETCH_FRIENDS_RUNS_ERROR, CREATE_RUN,
-    CREATE_RUN_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR
+    CREATE_RUN_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR, FETCH_CREATED_RUNS, FETCH_CREATED_RUNS_ERROR
 } from './types';
 import axios from 'axios';
+
+export const fetchCreatedRuns = () => dispatch =>{
+    axios.get('https://buddyrunner.herokuapp.com/runs')
+        .then((res) => dispatch({
+            type: FETCH_CREATED_RUNS,
+            payload: res.data
+        }))
+        .catch((error) => dispatch({
+            type: FETCH_CREATED_RUNS_ERROR,
+            payload: error
+        }));
+};
 
 export const fetchMyRuns = () => dispatch =>{
     axios.get('https://buddyrunner.herokuapp.com/runs')
