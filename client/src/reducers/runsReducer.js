@@ -67,7 +67,7 @@ export default function(state=initialState, action){
                 error: action.payload
             };
         case FETCH_SINGLE_RUN:
-            console.log(3123123123);
+            console.log(1111);
             console.log(action.payload);
 
             return {
