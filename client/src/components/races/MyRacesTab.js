@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import {connect} from "react-redux";
-import {fetchMyRuns} from "../../actions/runsActions";
+import {fetchCreatedRuns, fetchMyRuns} from "../../actions/runsActions";
 
 class MyRacesTab extends Component {
 
@@ -15,7 +15,7 @@ class MyRacesTab extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(fetchMyRuns);
+        this.props.dispatch(fetchCreatedRuns());
     }
 
     _renderItem = ({item}) => (
@@ -35,7 +35,7 @@ class MyRacesTab extends Component {
         return (
             <View>
                 <FlatList
-                    data={this.props.runs.myRuns}
+                    data={this.props.runs.myCreatedRuns}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                 />

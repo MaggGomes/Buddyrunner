@@ -4,28 +4,20 @@ import { Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR} from "../../actions/types";
 import axios from "axios/index";
+import {connect} from "react-redux";
+import {fetchMyRuns, fetchSingleRun} from "../../actions/runsActions";
 
-export default class RunScreen extends Component {
-
-    constructor(){
-        super();
-        this.state = {
-            data: [],
-            loading: true,
-            error: null
-        }
-    }
-
+class RunScreen extends Component {
     componentDidMount(){
+        const { params } = this.props.navigation.state;
 
-        /*axios.get('https://buddyrunner.herokuapp.com/runs/'+999414695026143200)
-            .then((res) => {
-                console.log(2222);
-                console.log(res);
-            })
-            .catch((error) => {
-                console.log(3333);
-            });*/
+        console.log(11111111);
+
+        //console.log(params);
+
+        this.props.dispatch(fetchSingleRun(params.id));
+
+
     }
 
     render() {
@@ -37,6 +29,7 @@ export default class RunScreen extends Component {
                 />
                 <Text style={styles.chrono}>00:00:00</Text>
                 <Text>Duration</Text>
+                <Text>{this.props.runs.singleRun.duration}</Text>
                 <Button
                     title="Go"
                     titleStyle={{ fontWeight: "700" }}
@@ -77,3 +70,5 @@ const styles = StyleSheet.create({
         flex: 1
     }
 });
+
+export default connect(store => ({runs: store.runs}))(RunScreen);

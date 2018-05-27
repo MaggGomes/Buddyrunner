@@ -20,9 +20,6 @@ class HomeTab extends Component {
 
     _renderItem = ({item}) => (
         <TouchableOpacity style={styles.container} onPress={() => {
-            console.log(3432543242);
-            console.log(item.id);
-
             this.props.navigation.navigate('RunScreen', {
                 id: item.id,
                 date: item.date,
