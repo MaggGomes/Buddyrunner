@@ -1,8 +1,8 @@
 import re
 import urllib
 import time
-from api.maps import geo_locate
-from api.weather import get_weather
+from api.maps import *
+from api.weather import *
 from flask import session, request
 from api.keys import twitter_access_token, twitter_consumer_key, twitter_consumer_secret
 from flask_oauthlib.client import OAuth  # https://github.com/lepture/flask-oauthlib
@@ -119,9 +119,9 @@ def tw_get_run_body_info(text):
         except (IndexError, AttributeError):
             continue
 
-    if data != {} and 'date' in data and 'location' in data:
-        data['weather'] = get_weather(data['lat'], data['lng'],
-                                      time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
+    #if data != {} and 'date' in data and 'location' in data:
+        #data['weather'] = get_weather(data['lat'], data['lng'],
+         #                             time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
     return data
 
 
