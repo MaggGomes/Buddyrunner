@@ -107,8 +107,8 @@ def tw_get_run_body_info(text):
                     '[\d]+:[\d]+', line[1]).group(0)
             elif ('Location' or 'location') in line[0]:
                 data['location'] = line[1]
-                #data['lat'] = geo_locate(line[1])['lat']
-                #data['lng'] = geo_locate(line[1])['lng']
+                data['lat'] = geo_locate(line[1])['lat']
+                data['lng'] = geo_locate(line[1])['lng']
             elif ('Distance' or 'distance') in line[0]:
                 data['distance'] = {
                     'value': re.search('[\d]+', line[1]).group(0),
@@ -119,9 +119,9 @@ def tw_get_run_body_info(text):
         except (IndexError, AttributeError):
             continue
 
-    #if data != {} and 'date' in data and 'location' in data:
-        #data['weather'] = get_weather(data['lat'], data['lng'],
-         #                             time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
+    if data != {} and 'date' in data and 'location' in data:
+        data['weather'] = get_weather(data['lat'], data['lng'],
+                                     time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
     return data
 
 
