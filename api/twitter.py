@@ -81,9 +81,9 @@ def tw_get_run_info(tweet, **kwargs):
         tweet = tweet['retweeted_status']
 
     run_info = {
-        'id': tweet['id'],
+        'id': str(tweet['id']),
         'creator': {
-            'id': tweet['user']['id'],
+            'id': str(tweet['user']['id']),
             'name': tweet['user']['name'],
             'image': tweet['user']['profile_image_url']
         }
