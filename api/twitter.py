@@ -61,7 +61,7 @@ def tw_filter_runs(data):
         for hashtag in hashtags:
             if 'buddyrunner' in hashtag['text']:
                 run_list.append(tweet)
-    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+(-/)[\d]+(-/)[\d]+', x['text']))
+    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+[-/][\d]+[-/][\d]+', x['text']))
     return sorted_runs
 
 
@@ -71,7 +71,7 @@ def tw_filter_friends(data, user_id):
     for tweet in data:
         if long(tweet['user']['id']) != long(user_id):
             run_list.append(tweet)
-    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+(-/)[\d]+(-/)[\d]+', x['text']))
+    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+[-/][\d]+[-/][\d]+', x['text']))
     return sorted_runs
 
 
@@ -104,7 +104,7 @@ def tw_get_run_body_info(text):
             line = line.split(': ')  # split key/values
             line[1] = line[1].strip()  # trim whitespace from values
             if ('Date' or 'date') in line[0]:
-                data['date'] = re.search('[\d]+(-/)[\d]+(-/)[\d]+', line[1]).group(0) + ' ' + re.search(
+                data['date'] = re.search('[\d]+[-/][\d]+[-/][\d]+', line[1]).group(0) + ' ' + re.search(
                     '[\d]+:[\d]+', line[1]).group(0)
             elif ('Location' or 'location') in line[0]:
                 data['location'] = line[1]
