@@ -3,6 +3,7 @@
 from api.twitter import *
 from api.weather import *
 from api.database import *
+from api.maps import *
 from flask import Flask
 from flask import g, session, request, url_for, json, Response
 
@@ -127,6 +128,11 @@ def join(tweet_id):
 @app.route('/runs/nearby')
 def nearby():
     return
+
+
+@app.route('/get_path', methods=['POST'])
+def get_path():
+    return json.dumps(maps_get_path(json.loads(request.data)))
 
 
 if __name__ == '__main__':
