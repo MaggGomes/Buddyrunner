@@ -68,8 +68,9 @@ def logout():
 @app.route('/runs')
 def runs():
 	if request.method == 'GET':
+		rts = request.args['rts'] if 'rts' in request.args else True
 		user_name = session['twitter_oauth']['screen_name']
-		data = tw_make_twitter_request('statuses/user_timeline', 'GET', screen_name=user_name, include_rts='true').data
+		data = tw_make_twitter_request('statuses/user_timeline', 'GET', screen_name=user_name, include_rts=rts).data
 		return json.dumps([
 			tw_get_run_info(t)
 			for t
