@@ -61,7 +61,7 @@ def tw_filter_runs(data):
         for hashtag in hashtags:
             if 'buddyrunner' in hashtag['text']:
                 run_list.append(tweet)
-    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', x['text']))
+    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+(-/)[\d]+(-/)[\d]+', x['text']))
     return sorted_runs
 
 
@@ -71,12 +71,12 @@ def tw_filter_friends(data, user_id):
     for tweet in data:
         if long(tweet['user']['id']) != long(user_id):
             run_list.append(tweet)
-    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', x['text']))
+    sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+(-/)[\d]+(-/)[\d]+', x['text']))
     return sorted_runs
 
 
-# Return basic run info (id, message, creator)
-def tw_get_run_info(tweet):
+# Return run info
+def tw_get_run_info(tweet, **kwargs):
     if 'retweeted_status' in tweet:
         tweet = tweet['retweeted_status']
 
@@ -89,7 +89,8 @@ def tw_get_run_info(tweet):
         }
     }
     run_info.update(tw_get_run_body_info(tweet['text']))
-    run_info.update(tw_get_run_extra_info(tweet['id'], tweet['user']['id']))
+    if kwargs.get('participants'):
+        run_info.update(tw_get_run_participants(tweet['id'], tweet['user']['id']))
     return run_info
 
 
@@ -103,7 +104,7 @@ def tw_get_run_body_info(text):
             line = line.split(': ')  # split key/values
             line[1] = line[1].strip()  # trim whitespace from values
             if ('Date' or 'date') in line[0]:
-                data['date'] = re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', line[1]).group(0) + ' ' + re.search(
+                data['date'] = re.search('[\d]+(-/)[\d]+(-/)[\d]+', line[1]).group(0) + ' ' + re.search(
                     '[\d]+:[\d]+', line[1]).group(0)
             elif ('Location' or 'location') in line[0]:
                 data['location'] = line[1]
@@ -121,12 +122,12 @@ def tw_get_run_body_info(text):
 
     if data != {} and 'date' in data and 'location' in data:
         data['weather'] = get_weather(data['lat'], data['lng'],
-                                     time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
+                                      time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
     return data
 
 
 # Returns participants of a race
-def tw_get_run_extra_info(tweet_id, creator_id):
+def tw_get_run_participants(tweet_id, creator_id):
     data = {'participants': []}
     retweets = tw_make_twitter_request('statuses/retweets', 'GET', id=tweet_id).data
     for tweet in retweets:
