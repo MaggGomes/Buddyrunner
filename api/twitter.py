@@ -69,7 +69,7 @@ def tw_filter_runs(data):
 def tw_filter_friends(data, user_id):
     run_list = []
     for tweet in data:
-        if long(tweet['user']['id']) != long(user_id):
+        if str(tweet['user']['id']) != str(user_id):
             run_list.append(tweet)
     sorted_runs = sorted(run_list, key=lambda x: re.search('[\d]+[-/][\d]+[-/][\d]+', x['text']))
     return sorted_runs
@@ -90,7 +90,7 @@ def tw_get_run_info(tweet, **kwargs):
     }
     run_info.update(tw_get_run_body_info(tweet['text']))
     if kwargs.get('participants'):
-        run_info.update(tw_get_run_participants(tweet['id'], tweet['user']['id']))
+        run_info.update(tw_get_run_participants(str(tweet['id']), str(tweet['user']['id'])))
     return run_info
 
 
@@ -131,10 +131,10 @@ def tw_get_run_participants(tweet_id, creator_id):
     data = {'participants': []}
     retweets = tw_make_twitter_request('statuses/retweets', 'GET', id=tweet_id).data
     for tweet in retweets:
-        if tweet['user']['id'] != creator_id:
+        if str(tweet['user']['id']) != str(creator_id):
             data['participants'].append({
                 'user': {
-                    'id': tweet['user']['id'],
+                    'id': str(tweet['user']['id']),
                     'name': tweet['user']['name'],
                     'image': tweet['user']['profile_image_url']
                 }
