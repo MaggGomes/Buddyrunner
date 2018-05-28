@@ -130,8 +130,9 @@ def nearby():
     return
 
 
-@app.route('/get_path', methods=['POST'])
+@app.route('/get_path')
 def get_path():
+	print(request.args)
     return json.dumps(maps_get_path(json.loads(request.data)))
 
 
