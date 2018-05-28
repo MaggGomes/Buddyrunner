@@ -1,10 +1,47 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import {connect} from "react-redux";
 import {fetchSingleRun} from "../../actions/runsActions";
+import TimeFormatter from 'minutes-seconds-milliseconds';
 
 class RunScreen extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isRunning: false,
+            mainTimer: null,
+            mainTimerStart: null
+        }
+    }
+
+    handleStartStop(){
+        let {isRunning, mainTimer} = this.state;
+
+        console.log(isRunning);
+
+        if(isRunning){
+            clearInterval(this.interval);
+            this.state = {
+                isRunning: false
+            };
+            return;
+        }
+
+        console.log('not running');
+
+        this.setState({
+            mainTimerStart: new Date(),
+            isRunning: true
+        });
+
+        this.interval = setInterval(()=>{
+            this.setState({
+                mainTimer: new Date() - this.state.mainTimerStart+mainTimer
+            });
+        });
+    }
 
     componentDidMount(){
         const { params } = this.props.navigation.state;
@@ -45,11 +82,34 @@ class RunScreen extends Component {
                     </CardItem>
                 </Card>
 
-                <Text style={styles.chrono}>00:00:00</Text>
+                <Text style={styles.chrono}>{TimeFormatter(this.state.mainTimer)}</Text>
 
                 <View style={styles.buttonContainer} >
-                    <Button block style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }}>
-                        <Text style={{color: 'white', fontWeight: 'bold'}}>Start</Text>
+                    <Button block style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={()=>{
+                        let {isRunning, mainTimer} = this.state;
+
+                        console.log(isRunning);
+
+                        if(isRunning){
+                            clearInterval(this.interval);
+                            this.state = {
+                                isRunning: false
+                            };
+                            return;
+                        }
+
+                        this.setState({
+                            mainTimerStart: new Date(),
+                            isRunning: true
+                        });
+
+                        this.interval = setInterval(()=>{
+                            this.setState({
+                                mainTimer: new Date() - this.state.mainTimerStart+mainTimer
+                            });
+                        });
+                    }}>
+                        <Text style={{color: 'white', fontWeight: 'bold'}}>{this.state.isRunning? 'Stop': 'Start' }</Text>
                     </Button>
                 </View>
             </ScrollView>
