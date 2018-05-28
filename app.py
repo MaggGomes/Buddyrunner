@@ -141,6 +141,7 @@ def nearby():
 def run_complete(tweet_id):
     req = json.loads(request.data)
     print(req['time'], tweet_id)
+    return
     
 
 @app.route('/get_path')
