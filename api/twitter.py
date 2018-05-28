@@ -56,7 +56,7 @@ def tw_make_twitter_request(endpoint, method, **params):
 #Extract_time
 def extract_time(json):
     try:
-        date = datetime.datetime.strptime(re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', json['text']).group(0), "%d/%m/%Y")
+        date = datetime.datetime.strptime(re.search('[\d]+[-/][\d]+[-/][\d]+', json['text']).group(0).replace('-', '/'), "%d/%m/%Y")
         return date
     except KeyError:
         return 0

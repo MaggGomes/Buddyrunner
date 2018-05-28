@@ -18,14 +18,14 @@ const renderField = ({ label, keyboardType, name, input: { onChange, ...restInpu
 
 const CreateRaceForm = props => {
     const { handleSubmit } = props;
-
+    
     return (
         <View style={styles.container}>
             <Text style={styles.formTitle}>Create Race</Text>
             <Field keyboardType="default" label="Date" component={renderField} name="Date" {...Date} />
             <Field keyboardType="default" label="Duration" component={renderField} name="Duration" />
-			<RunMap />
-            <Field keyboardType="default" label="Distance" component={renderField} name="Distance" disabled={true} />
+			<RunMap setDistance={props.setDistance} />
+            <Text>{props.distance}</Text>
 			
             <View style={styles.buttonContainer} >
                 <Button block style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={handleSubmit}>
