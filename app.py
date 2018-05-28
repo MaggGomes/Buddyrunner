@@ -85,7 +85,7 @@ def create():
     tweet = ''
     if req.get('date'):
         tweet += 'Date: {0}\n'.format(req.get('date'))
-    if req.get('location'):
+    if req.get('path'):
         tweet += 'Path: {0}\n'.format(req.get('path'))
     if req.get('distance'):
         tweet += 'Distance: {0}\n'.format(str(int(req.get('distance'))/1000) + 'km')
