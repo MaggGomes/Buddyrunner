@@ -132,8 +132,7 @@ def nearby():
 
 @app.route('/get_path')
 def get_path():
-    print(json.loads(request.args['path']))
-    return json.dumps(maps_get_path(json.loads(request.data)))
+    return json.dumps(maps_get_path(json.loads(request.args['path'])))
 
 
 if __name__ == '__main__':
