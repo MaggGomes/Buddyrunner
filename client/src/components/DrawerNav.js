@@ -11,8 +11,10 @@ import {Icon} from 'native-base';
 const DrawerContentComponent = (props) => (
     <ScrollView>
         <View style={styles.container}>
-
-            <Text style={styles.name}>Buddyrunner</Text>
+			<Image
+                    source={{uri: 'http://pbs.twimg.com/profile_images/999379008180535297/_K7Qvdm7_normal.jpg'}}
+                    style={{width: 80, height: 80, borderRadius: 50}}/>
+            <Text style={styles.name}>Pedro Esteves</Text>
         </View>
         <View>
             <DrawerItems {...props} />
@@ -32,7 +34,7 @@ const DrawerNav = DrawerNavigator({
             }
         },
         CreateRace: {
-            screen: CreateRaceScreen,
+			screen: CreateRaceScreen,
             navigationOptions : ({navigation}) => {
                 const {params} = navigation.state;
 

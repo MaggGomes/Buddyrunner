@@ -88,8 +88,6 @@ class RunScreen extends Component {
                     <Button block style = {{ backgroundColor: '#26a4f3', borderRadius: 0 }} onPress={()=>{
                         let {isRunning, mainTimer} = this.state;
 
-                        console.log(isRunning);
-
                         if(isRunning){
                             clearInterval(this.interval);
                             this.state = {
