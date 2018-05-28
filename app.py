@@ -88,8 +88,8 @@ def create():
     if req.get('path'):
         path = decode_polyline(req.get('path'))
         start_location = maps_get_location(path[0])
-        print(start_location)
-        tweet += 'Path: {0}\n'.format('Porto')
+        start_location = start_location[0]['address_components'][2]['short_name']
+        tweet += 'Location: {0}\n'.format(start_location)
     if req.get('distance'):
         distance = int(req.get('distance'));
         tweet += 'Distance: {0}\n'.format(str(distance/1000) + 'km')
@@ -100,7 +100,8 @@ def create():
     db_insert_run({
         "id": resp["id"],
         "distance": distance,
-        "path": path
+        "path": path,
+        "participants": []
     })
     return json.dumps(resp)
 
