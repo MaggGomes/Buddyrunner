@@ -76,7 +76,7 @@ export const fetchSingleRun = (id) => dispatch =>{
 
 export const fetchPath = (waypoints) => async dispatch => {
 	try {
-        const res = await axios.get('https://buddyrunner.herokuapp.com/get_path?path='+encodeURIComponent(waypoints));
+        const res = await axios.get('https://buddyrunner.herokuapp.com/get_path', {params: JSON.stringify(waypoints)});
 
         dispatch({
             type: FETCH_PATH,
