@@ -93,6 +93,8 @@ class RunScreen extends Component {
                             this.state = {
                                 isRunning: false
                             };
+                            const { params } = this.props.navigation.state;
+                            this.props.dispatch(createTime(params.id, this.state.mainTimer))
                             return;
                         }
 

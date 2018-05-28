@@ -95,3 +95,25 @@ export const fetchPath = (waypoints) => async dispatch => {
     }
 };
 
+export const createTime = (run, time) => async dispatch =>{
+    try {
+        const res = await axios.post('https://buddyrunner.herokuapp.com/runs/'+run+'/complete', {
+            time: time,
+        });
+
+        dispatch({
+            type: CREATE_TIME,
+            payload: res.data
+        })
+    }catch (error){
+        dispatch({
+            type: CREATE_TIME_ERROR,
+            payload: error
+        })
+    }
+};
+
+
+
+
+

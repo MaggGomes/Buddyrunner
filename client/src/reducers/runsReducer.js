@@ -2,7 +2,8 @@ import {
     CREATE_RUN, CREATE_RUN_ERROR, FETCH_CREATED_RUNS, FETCH_CREATED_RUNS_ERROR, FETCH_FRIENDS_RUNS,
     FETCH_FRIENDS_RUNS_ERROR, FETCH_MY_RUNS,
     FETCH_MY_RUNS_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR,
-	FETCH_PATH, FETCH_PATH_ERROR
+	FETCH_PATH, FETCH_PATH_ERROR,
+    CREATE_TIME, CREATE_TIME_ERROR
 } from '../actions/types'
 
 const initialState = {
@@ -92,6 +93,16 @@ export default function(state=initialState, action){
             return {
                 ...state,
                 loading: false,
+                error: action.payload
+            };
+        case CREATE_TIME:
+            return {
+                ...state,
+                error: null
+            };
+        case CREATE_TIME_ERROR:
+            return {
+                ...state,
                 error: action.payload
             };
         default:
