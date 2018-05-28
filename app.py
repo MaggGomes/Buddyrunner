@@ -98,8 +98,8 @@ def create():
     tweet += '#buddyrunner'
     resp = tw_make_twitter_request('statuses/update', 'POST', status=tweet).data
     db_insert_run({
-        "id": resp["id"],
-        "distance": distance,
+        "id": str(resp["id"]),
+        "distance": str(distance),
         "path": path,
         "participants": []
     })

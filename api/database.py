@@ -21,6 +21,5 @@ def db_add_run_time(run_id, user_id, time):
 	print(run_id, user_id, time)
 	runs.update_one(
 		{'id': run_id},
-		{'$push': {'participants': {'id': user_id, 'time': time}}},
-		upsert=True
+		{'$push': {'participants': {'id': user_id, 'time': time}}}
 	)
