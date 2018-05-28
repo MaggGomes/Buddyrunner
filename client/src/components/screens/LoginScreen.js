@@ -40,7 +40,7 @@ class LoginScreen extends Component {
 			  : <View>
 			  <View style={{alignItems: 'center'}}>
 			  <Image
-                source={require('../../static/img/map.png')}
+                source={require('../../static/img/sprint.png')}
                 style={styles.logo}
             />
 			  </View>
