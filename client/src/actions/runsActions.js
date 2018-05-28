@@ -76,7 +76,12 @@ export const fetchSingleRun = (id) => dispatch =>{
 
 export const fetchPath = (waypoints) => async dispatch => {
 	try {
-        const res = await axios.get('https://buddyrunner.herokuapp.com/get_path', {params: JSON.stringify(waypoints)});
+        points = []
+        for (var i = 0; i < waypoints.length; i++) {
+            points.push(waypoints[i].latitude+','+waypoints[i].longitude);
+        }
+        
+        const res = await axios.get('https://buddyrunner.herokuapp.com/get_path', {params: {path: JSON.stringify(points)}});
 
         dispatch({
             type: FETCH_PATH,

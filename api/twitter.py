@@ -56,7 +56,7 @@ def tw_make_twitter_request(endpoint, method, **params):
 #Extract_time
 def extract_time(json):
     try:
-        date = datetime.datetime.strptime(re.search('[\d]+(-|\/)[\d]+(-|\/)[\d]+', json['text']).group(0), "%d/%m/%Y")
+        date = datetime.datetime.strptime(re.search('[\d]+[-/][\d]+[-/][\d]+', json['text']).group(0).replace('-', '/'), "%d/%m/%Y")
         return date
     except KeyError:
         return 0
@@ -130,7 +130,7 @@ def tw_get_run_body_info(text):
 
     if data != {} and 'date' in data and 'location' in data:
         data['weather'] = get_weather(data['lat'], data['lng'],
-                                      time.mktime(time.strptime(data['date'], "%d/%m/%Y %H:%M")))
+                                      time.mktime(time.strptime(data['date'].replace('-', '/'), "%d/%m/%Y %H:%M")))
     return data
 
 
