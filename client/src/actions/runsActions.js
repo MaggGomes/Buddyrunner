@@ -1,6 +1,7 @@
 import {
     FETCH_MY_RUNS_ERROR, FETCH_MY_RUNS, FETCH_FRIENDS_RUNS, FETCH_FRIENDS_RUNS_ERROR, CREATE_RUN,
-    CREATE_RUN_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR, FETCH_CREATED_RUNS, FETCH_CREATED_RUNS_ERROR
+    CREATE_RUN_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR, FETCH_CREATED_RUNS, FETCH_CREATED_RUNS_ERROR,
+	FETCH_PATH, FETCH_PATH_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -40,12 +41,12 @@ export const fetchFriendsRuns = () => dispatch =>{
         }));
 };
 
-export const createRun = (date, location, distance, duration) => async dispatch =>{
+export const createRun = (date, distance, path, duration) => async dispatch =>{
     try {
         const res = await axios.post('https://buddyrunner.herokuapp.com/runs/create', {
             date: date,
-            location: location,
             distance: distance,
+            path: path,
             duration: duration
         });
 
@@ -72,3 +73,25 @@ export const fetchSingleRun = (id) => dispatch =>{
             payload: error
         }));
 };
+
+export const fetchPath = (waypoints) => async dispatch => {
+	try {
+        points = []
+        for (var i = 0; i < waypoints.length; i++) {
+            points.push(waypoints[i].latitude+','+waypoints[i].longitude);
+        }
+        
+        const res = await axios.get('https://buddyrunner.herokuapp.com/get_path', {params: {path: JSON.stringify(points)}});
+
+        dispatch({
+            type: FETCH_PATH,
+            payload: res.data
+        })
+    }catch (error){
+        dispatch({
+            type: FETCH_PATH_ERROR,
+            payload: error
+        })
+    }
+};
+
