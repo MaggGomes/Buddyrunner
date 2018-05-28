@@ -86,9 +86,9 @@ def create():
     if req.get('date'):
         tweet += 'Date: {0}\n'.format(req.get('date'))
     if req.get('location'):
-        tweet += 'Location: {0}\n'.format(req.get('location'))
+        tweet += 'Path: {0}\n'.format(req.get('path'))
     if req.get('distance'):
-        tweet += 'Distance: {0}\n'.format(req.get('distance'))
+        tweet += 'Distance: {0}\n'.format(int(req.get('distance'))/1000 + 'km')
     if req.get('duration'):
         tweet += 'Duration: {0}\n'.format(req.get('duration'))
     tweet += '#buddyrunner'

@@ -7,28 +7,24 @@ import { connect, change } from "react-redux";
 class RunMap extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {markers: []};
-	}
-	
+		this.state = {markers: [], distance: 0};
+	};
+    
+    componentDidUpdate(prevProps, prevState) {
+        this.props.setPath(this.state.polylineEncoded, this.state.distance);
+    }
+    
 	handlePress = async (e) => {
-        setDistance = this.props.setDistance;
 		this.setState({markers: [...this.state.markers, e.nativeEvent.coordinate]}, async () => {
             if (this.state.markers.length > 1) {
                 await this.props.dispatch(fetchPath(this.state.markers));
-                var polyline = this.decodePolyline(this.props.runs.path[0].overview_polyline.points);
-                console.log(setDistance);
-                console.log(polyline);
-                console.log(this.props.runs.path[0].legs[0].distance.value);
-                this.setState({line: polyline, distance: this.props.runs.path[0].legs[0].distance.value})
-                    .then(() => {
-                        console.log(setDistance);
-                    console.log(polyline);
-                    console.log(this.props.runs.path[0].legs[0].distance.value);
-                        setDistance(this.state.distance);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                var polylineEncoded = this.props.runs.path[0].overview_polyline.points;
+                var polyline = this.decodePolyline(polylineEncoded);
+                var dist = 0;
+                for (var i = 0; i < this.props.runs.path[0].legs.length; i++) {
+                    dist += this.props.runs.path[0].legs[i].distance.value;
+                }
+                this.setState({polylineEncoded: polylineEncoded, line: polyline, distance: dist});
             }
         });
     };

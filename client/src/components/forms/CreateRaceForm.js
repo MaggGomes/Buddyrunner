@@ -24,7 +24,7 @@ const CreateRaceForm = props => {
             <Text style={styles.formTitle}>Create Race</Text>
             <Field keyboardType="default" label="Date" component={renderField} name="Date" {...Date} />
             <Field keyboardType="default" label="Duration" component={renderField} name="Duration" />
-			<RunMap setDistance={props.setDistance} />
+			<RunMap setPath={props.setPath} />
             <Text>{props.distance}</Text>
 			
             <View style={styles.buttonContainer} >

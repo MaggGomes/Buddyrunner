@@ -41,12 +41,12 @@ export const fetchFriendsRuns = () => dispatch =>{
         }));
 };
 
-export const createRun = (date, location, distance, duration) => async dispatch =>{
+export const createRun = (date, distance, path, duration) => async dispatch =>{
     try {
         const res = await axios.post('https://buddyrunner.herokuapp.com/runs/create', {
             date: date,
-            location: location,
             distance: distance,
+            path: path,
             duration: duration
         });
 
