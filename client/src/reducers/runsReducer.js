@@ -1,7 +1,8 @@
 import {
     CREATE_RUN, CREATE_RUN_ERROR, FETCH_CREATED_RUNS, FETCH_CREATED_RUNS_ERROR, FETCH_FRIENDS_RUNS,
     FETCH_FRIENDS_RUNS_ERROR, FETCH_MY_RUNS,
-    FETCH_MY_RUNS_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR
+    FETCH_MY_RUNS_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR,
+	FETCH_PATH, FETCH_PATH_ERROR
 } from '../actions/types'
 
 const initialState = {
@@ -10,7 +11,8 @@ const initialState = {
     friendsRuns: [],
     singleRun: [],
     loading: true,
-    error: null
+    error: null,
+	path: []
 };
 
 export default function(state=initialState, action){
@@ -67,9 +69,6 @@ export default function(state=initialState, action){
                 error: action.payload
             };
         case FETCH_SINGLE_RUN:
-            console.log(1111);
-            console.log(action.payload);
-
             return {
                 ...state,
                 loading: false,
@@ -77,6 +76,19 @@ export default function(state=initialState, action){
                 error: null
             };
         case FETCH_SINGLE_RUN_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+		case FETCH_PATH:
+            return {
+                ...state,
+                loading: false,
+                path: action.payload,
+                error: null
+            };
+        case FETCH_PATH_ERROR:
             return {
                 ...state,
                 loading: false,

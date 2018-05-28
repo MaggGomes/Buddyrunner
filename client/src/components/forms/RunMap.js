@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import {fetchPath} from "../../actions/runsActions";
+import {connect} from "react-redux";
 
 class RunMap extends Component {
 	constructor(props) {
@@ -8,10 +10,11 @@ class RunMap extends Component {
 		this.state = {markers: []};
 	}
 	
-	handlePress = (e) => {
+	handlePress = async (e) => {
 		this.setState({markers: [...this.state.markers, e.nativeEvent.coordinate]});
 		if (this.state.markers.length > 1) {
-						
+			await this.props.dispatch(fetchPath(this.state.markers));
+			console.log(this.props.runs.path)
 		}
     };
 	
@@ -44,4 +47,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default RunMap;
+export default connect(store => ({auth: store.auth, runs: store.runs}))(RunMap);

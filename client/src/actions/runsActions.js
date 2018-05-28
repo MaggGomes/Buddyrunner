@@ -74,15 +74,19 @@ export const fetchSingleRun = (id) => dispatch =>{
         }));
 };
 
-export const fetchPath = (waypoints) => dispatch => {
-	axios.get('https://buddyrunner.herokuapp.com/get_path?path='+encodeURIComponent(waypoints))
-		.then((res) => dispatch({
+export const fetchPath = (waypoints) => async dispatch => {
+	try {
+        const res = await axios.get('https://buddyrunner.herokuapp.com/get_path?path='+encodeURIComponent(waypoints));
+
+        dispatch({
             type: FETCH_PATH,
             payload: res.data
-        }))
-        .catch((error) => dispatch({
+        })
+    }catch (error){
+        dispatch({
             type: FETCH_PATH_ERROR,
             payload: error
-        }));
+        })
+    }
 };
 
