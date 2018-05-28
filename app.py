@@ -142,7 +142,7 @@ def run_complete(tweet_id):
     req = json.loads(request.data)
     db_add_run_time(tweet_id, session['twitter_oauth']['user_id'], req['time'])
     return Response(status=200)
-    
+
 
 @app.route('/get_path')
 def get_path():

@@ -9,6 +9,7 @@ def get_weather(lat, lon, time):
     lon = lon
     time = time
 
+    print(lat, lon, time)
     url = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid={key}'.format(
         lat=lat, lon=lon, key=weather_key)
     resp = urllib2.urlopen(url).read()
