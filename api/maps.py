@@ -11,7 +11,7 @@ def geo_locate(location):
 
 def maps_get_location(coordinates):
     gmaps = googlemaps.Client(key=google_maps_key)
-    geocode_result = gmaps.reverse_geocode((coordinates['latitude'], coordinates['longitude']))
+    geocode_result = gmaps.reverse_geocode((int(coordinates['latitude']), int(coordinates['longitude'])))
     return geocode_result
     
 
