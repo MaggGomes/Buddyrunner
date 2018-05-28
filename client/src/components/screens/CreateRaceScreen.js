@@ -9,15 +9,15 @@ class CreateRaceScreen extends Component {
         this.state = {distance: 0};
     }
     
-    setDistance = (value) => {
-        this.setState({distance: value});
+    setPath = (path, distance) => {
+        this.setState({path: path, distance: distance});
     };
 
     handleSubmit = async (values) => {
         await this.props.dispatch(createRun(
             values.Date,
-            values.Location,
             this.state.distance,
+            this.state.path,
             values.Duration)
         );
 
@@ -26,7 +26,7 @@ class CreateRaceScreen extends Component {
 
     render() {
         return (
-            <CreateRaceForm onSubmit={this.handleSubmit} distance={this.state.distance} setDistance={this.setDistance}/>
+            <CreateRaceForm onSubmit={this.handleSubmit} distance={this.state.distance} setPath={this.setPath}/>
         );
     }
 }

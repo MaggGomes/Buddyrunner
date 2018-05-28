@@ -85,16 +85,22 @@ def create():
     tweet = ''
     if req.get('date'):
         tweet += 'Date: {0}\n'.format(req.get('date'))
-    if req.get('location'):
-        tweet += 'Location: {0}\n'.format(req.get('location'))
+    if req.get('path'):
+        path = decode_polyline(req.get('path'))
+        start_location = maps_get_location(path[0])
+        print(start_location)
+        tweet += 'Path: {0}\n'.format('Porto')
     if req.get('distance'):
-        tweet += 'Distance: {0}\n'.format(req.get('distance'))
+        distance = int(req.get('distance'));
+        tweet += 'Distance: {0}\n'.format(str(distance/1000) + 'km')
     if req.get('duration'):
         tweet += 'Duration: {0}\n'.format(req.get('duration'))
     tweet += '#buddyrunner'
     resp = tw_make_twitter_request('statuses/update', 'POST', status=tweet).data
     db_insert_run({
-        "id": resp["id"]
+        "id": resp["id"],
+        "distance": distance,
+        "path": path
     })
     return json.dumps(resp)
 
