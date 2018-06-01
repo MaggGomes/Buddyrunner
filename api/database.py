@@ -17,4 +17,9 @@ def db_get_runs_by_user(user_id):
 	return runs.find({'participants.id': user_id})
 
 
-
+def db_add_run_time(run_id, user_id, time):
+	print(run_id, user_id, time)
+	runs.update_one(
+		{'id': run_id},
+		{'$push': {'participants': {'id': user_id, 'time': time}}}
+	)

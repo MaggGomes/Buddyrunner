@@ -98,8 +98,8 @@ def create():
     tweet += '#buddyrunner'
     resp = tw_make_twitter_request('statuses/update', 'POST', status=tweet).data
     db_insert_run({
-        "id": resp["id"],
-        "distance": distance,
+        "id": str(resp["id"]),
+        "distance": str(distance),
         "path": path,
         "participants": []
     })
@@ -135,6 +135,13 @@ def join(tweet_id):
 @app.route('/runs/nearby')
 def nearby():
     return
+
+
+@app.route('/runs/<tweet_id>/complete', methods=['POST'])
+def run_complete(tweet_id):
+    req = json.loads(request.data)
+    db_add_run_time(tweet_id, session['twitter_oauth']['user_id'], req['time'])
+    return Response(status=200)
 
 
 @app.route('/get_path')

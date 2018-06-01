@@ -96,6 +96,7 @@ def tw_get_run_info(tweet, **kwargs):
             'image': tweet['user']['profile_image_url']
         }
     }
+    print(str(tweet['id']))
     run_info.update(tw_get_run_body_info(tweet['text']))
     if kwargs.get('participants'):
         run_info.update(tw_get_run_participants(str(tweet['id']), str(tweet['user']['id'])))

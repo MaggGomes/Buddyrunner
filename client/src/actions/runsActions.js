@@ -1,7 +1,8 @@
 import {
     FETCH_MY_RUNS_ERROR, FETCH_MY_RUNS, FETCH_FRIENDS_RUNS, FETCH_FRIENDS_RUNS_ERROR, CREATE_RUN,
     CREATE_RUN_ERROR, FETCH_SINGLE_RUN, FETCH_SINGLE_RUN_ERROR, FETCH_CREATED_RUNS, FETCH_CREATED_RUNS_ERROR,
-	FETCH_PATH, FETCH_PATH_ERROR
+	FETCH_PATH, FETCH_PATH_ERROR,
+    CREATE_TIME, CREATE_TIME_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -94,4 +95,26 @@ export const fetchPath = (waypoints) => async dispatch => {
         })
     }
 };
+
+export const createTime = (run, time) => async dispatch =>{
+    try {
+        const res = await axios.post('https://buddyrunner.herokuapp.com/runs/'+run+'/complete', {
+            time: time,
+        });
+
+        dispatch({
+            type: CREATE_TIME,
+            payload: res.data
+        })
+    }catch (error){
+        dispatch({
+            type: CREATE_TIME_ERROR,
+            payload: error
+        })
+    }
+};
+
+
+
+
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body } from 'native-base';
 import {connect} from "react-redux";
-import {fetchSingleRun} from "../../actions/runsActions";
+import {fetchSingleRun, createTime} from "../../actions/runsActions";
 import TimeFormatter from 'minutes-seconds-milliseconds';
 
 class RunScreen extends Component {
@@ -93,6 +93,8 @@ class RunScreen extends Component {
                             this.state = {
                                 isRunning: false
                             };
+                            const { params } = this.props.navigation.state;
+                            this.props.dispatch(createTime(params.id, mainTimer))
                             return;
                         }
 
